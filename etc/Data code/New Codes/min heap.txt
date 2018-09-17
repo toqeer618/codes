@@ -1,0 +1,255 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+	int info,flag;
+	node *left,*right;
+};
+class cbt
+{
+public:
+	int num,count;
+	node *p,*root;
+	//cnstructor
+	cbt()
+	{
+		num=count=0;
+		p=root=NULL;
+	}
+	
+	// insertion ............
+	void insert(node * temp)
+	{
+		count++;
+		int c=0;
+		if(temp==NULL)
+		{
+			temp=new node;
+			temp->info=num;
+			temp->flag=1;
+			temp->left=temp->right=NULL;
+			root=temp;
+			return;
+		}
+		else
+		{
+		c=count/2;
+		point(temp,c);
+		//cout<<"The parent is : "<<p->info<<endl;
+		if(count%2==0)
+		setleft(p,num);
+		else
+			setright(p,num);
+		}
+		return;
+	}
+	// point function
+	void point(node *temp,int c)
+	{
+		if(temp->flag==c)
+		{
+			p=temp;
+			return;
+		}
+		else
+		{
+			if(temp->left!=NULL)
+				point(temp->left,c);
+			if(temp->right!=NULL)
+				point(temp->right,c);
+		}
+		return;
+	}
+
+	//left insertion
+
+	void setleft(node *temp1,int y)
+	{
+		temp1->left=new node;
+		temp1->left->info=y;
+		temp1->left->left=temp1->left->right=NULL;
+		temp1->left->flag=count;
+		percolateup(temp1);
+		cout<<"Left node has been created : "<<endl;
+		
+		return;
+	}
+
+	// right insertion
+	
+	void setright(node *temp2,int z)
+	{
+		temp2->right=new node;
+		temp2->right->info=z;
+		temp2->right->left=temp2->right->right=NULL;
+		temp2->right->flag=count;
+		percolateup(temp2);
+		cout<<"Right child has been created : "<<endl;
+		
+		return;
+	}
+
+	// inorder ...........
+
+	void in_order(node *temp3)
+	{
+		if(temp3==NULL)
+		{
+			cout<<"The tree is empty : "<<endl;
+			return;
+		}
+		if(temp3->left!=NULL)
+			in_order(temp3->left);
+		cout<<"The node is : "<<temp3->info<<endl;
+		if(temp3->right!=NULL)
+			in_order(temp3->right);
+		return;
+	}
+
+	// before delete .............
+
+void beforedelet(node* temp)
+ {
+	 percolatedown(temp);
+	 temp=p;
+	// p=0;
+	 if(temp->flag==count)
+	 {
+		 int c=count/2;
+	 point(root,c);
+	 delet(p);
+	 return;
+	 }
+	 else
+	 {
+		 int c=count/2;
+		 point(root,c);
+		if(count%2==0)
+		{int a=temp->info;
+		temp->info=p->left->info;
+		p->left->info=a;
+		delet(p);
+		}
+		else
+		{
+			int a=temp->info;
+			temp->info=p->right->info;
+			p->right->info=a;
+			delet(p);
+		}
+	  
+	 }
+	 return;
+}
+
+// percolate down for deletion...........
+
+void percolatedown(node *temp)
+{
+  int a=0;
+  if(temp->right==0&&temp->left==0)
+  {
+	  p=temp;return;
+  }
+  if(temp->left!=0&&temp->right!=0)
+  {if(temp->left->info<temp->right->info)
+  {
+	  a=temp->info;
+	  temp->info=temp->left->info;
+	  temp->left->info=a;
+	  percolatedown(temp->left);
+  }
+  if(temp->right->info<temp->left->info)
+  {
+	  a=temp->info;
+	  temp->info=temp->right->info;
+	  temp->right->info=a;
+	  percolatedown(temp->right);
+  }
+  }
+  if(temp->left!=0&&temp->right==0)
+  {
+     a=temp->info;
+	  temp->info=temp->left->info;
+	  temp->left->info=a;percolatedown(temp->left);
+  }
+  if(temp->right!=0&&temp->left==0)
+  {
+      a=temp->info;
+	  temp->info=temp->right->info;
+	  temp->right->info=a;
+	  percolatedown(temp->right);
+  }
+  if((temp->right->info)==(temp->left->info))
+  {
+     a=temp->info;
+	  temp->info=temp->right->info;
+	  temp->right->info=a;
+	  percolatedown(temp->right);
+  }
+  cout<<"percolate down : "<<endl;
+return;
+}
+//delete .........
+void delet(node* temp)
+{
+	 //cout<<"\n parent : "<<p->info<<endl;
+  if(count%2==0)
+  {
+	  delete p->left;
+	  p->left=0;
+  }
+  else
+  {delete p->right;p->right=0;}
+  count--;
+  cout<<"Node has been deleted : "<<endl;
+  return;
+}
+// percolate up .........
+
+	void percolateup(node *temp)
+{
+  int a=0;
+  if(temp->left!=0)
+  if(temp->left->info<temp->info)
+  {
+	  a=temp->info;
+	  temp->info=temp->left->info;
+	  temp->left->info=a;
+  }
+  if(temp->right!=0)
+  if(temp->right->info<temp->info)
+  {
+	  a=temp->info;
+	  temp->info=temp->right->info;
+	  temp->right->info=a;return;
+  }
+ // cout<<"Percolate up : "<<endl;
+  return;
+}
+	// destructor 
+	~cbt()
+	{
+		delete root,p;
+	}
+};
+void main()
+{
+	system("TITLE Rahila Syed");
+	cbt s;
+	int a;
+	cout<<"enter the no of nodes u want to add : "<<endl;
+	cin>>a;
+	cout<<"Enter the node's info : "<<endl;
+	for(int i=0;i<a;i++)
+	{
+		cin>>s.num;
+		s.insert(s.root);
+	}
+	s.in_order(s.root);
+	
+	s.beforedelet(s.root);
+	s.in_order(s.root);
+	
+	
+}

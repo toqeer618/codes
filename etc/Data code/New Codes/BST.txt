@@ -1,0 +1,270 @@
+#include<iostream>
+#include <conio.h>
+using namespace std;
+struct node
+{
+	int info;
+	node *left,*right;
+};
+class bst
+{
+private:
+	node *temp;
+public:
+	int num;
+	node *cur,*pre;
+	node *root;
+	bst();
+	void insertion(node *);
+	void in_order(node *);
+	void deletion(node *,node *);
+	void options();
+	~bst()
+	{
+		delete root,temp,cur,pre;
+	}
+};
+//.....CONSTRUCTOR......................
+ bst::bst()
+{
+	temp=root=NULL;
+ }
+ //.....INSERTION...........................
+ void bst::insertion(node *temp)
+ {
+	 if(root==NULL)
+	 {
+		 temp=new node;
+		 temp->info=num;
+		 temp->left=NULL;
+		 temp->right=NULL;
+		 root=temp;
+		 return;
+	 }
+	 if(temp->info==num)
+	 {
+		 cout<<"the no already exists : "<<endl;
+		 return;
+	 }
+	 if(temp->info>num)
+	 {
+		 if(temp->left!=NULL)
+		 {
+		 insertion(temp->left);
+		 return;
+		 }
+	 
+	 else
+	 {
+		 temp->left=new node;
+		 temp->left->info=num;
+		 temp->left->left=NULL;
+		 temp->left->right=NULL;
+		 return;
+	 }
+	 }
+	 if(temp->info<num)
+	 {
+		 if(temp->right!=NULL)
+		 {
+			 insertion(temp->right);
+			 return;
+		 }
+		 else
+			  temp->right=new node;
+		 temp->right->info=num;
+		 temp->right->left=NULL;
+		 temp->right->right=NULL;
+		 return;
+
+	 }
+ }
+ //...........insertion function ends ...........................................//
+ //...........IN-ORDER..................
+ void bst::in_order(node *temp)
+ {
+	 if(root==NULL)
+	 {
+		 cout<<"The tree is empty : "<<endl;
+		 return;
+	 }
+	 if(temp->left!=NULL)
+	 {
+		 in_order(temp->left);
+	 }
+	 cout<<temp->info<<" ";
+	 if(temp->right!=NULL)
+	 {
+		 in_order(temp->right);
+	 }
+
+	 return;
+ }
+ //..........end of in-order .....................
+ //..........OPTIONS ..................
+ void bst::options()
+ {
+	 cout<<"\n\n ************** Select Option *****************.\n";
+	 cout<<"Enter the option you want to perform : "<<endl;
+	 cout<<"\n 1:Enter for insertion : "<<endl;
+	 cout<<"\n 2:Enter for print : "<<endl;
+	 cout<<"\n 3: Deleting node from BST.\n";
+	 cout<<"\n 4:Enter for exit : "<<endl;
+ }
+ //.........OPTIONS END...........
+ //...............DELETION..............
+ void bst::deletion(node *temp,node*temp1)
+ {
+	if(root==NULL)
+	{
+		cout<<"BST is empty already : "<<endl;
+		return;
+	}
+	//procedure starts here....................
+
+	if(temp->info==num)
+	{
+		// .............FOR LEAF.................
+		if(temp->left==NULL && temp->right==NULL)
+		{
+			if(temp==root)
+			{
+				root=NULL;
+				delete temp;
+				return;
+			}
+			if(temp1->left==temp)
+			{
+				temp1->left=NULL;
+				delete temp;
+				return;
+			}
+			else
+				temp1->right=NULL;
+			delete temp;
+			return;
+			}
+		}
+	//................FOR TWO CHILDS,,,,,,,,,,,,,,,,
+	if(temp->left!=NULL && temp->right!=NULL)
+	{
+		cur=temp->right;
+		if(cur->left!=NULL)
+		{
+			while(cur->left!=NULL)
+			{
+				pre=cur;
+				cur=cur->left;
+			}
+			temp->info=cur->info;
+			pre->left=NULL;
+			delete cur;
+			cur=NULL;
+		}
+	
+	else
+		temp->info=cur->info;
+	temp->right=cur->right;
+	delete cur;
+	cur=NULL;
+	return;
+
+	}
+	//............for one child........
+	//.........left..............
+	if(temp->left!=NULL && temp->right==NULL)
+	{
+		/*temp->left=temp1;
+		temp->left=temp->left->left;
+		delete temp1;
+		return;*/
+		if(temp==root)
+{
+delete root;
+root =temp->left;
+}
+else
+{
+temp1->left=temp->left;
+delete temp;
+}
+return;
+
+	}
+	//.......right.....
+	if(temp->left==NULL && temp->right!=NULL)
+	{
+		//temp->right=temp1;
+		//temp->right=temp->right->right;
+		//delete temp1;
+		//return;
+		if(temp==root)
+{
+delete root;
+root =temp->right;
+                                                            }
+else
+{
+temp1->right=temp->right;
+delete temp;
+}
+return;
+
+
+	}
+	//>>>>>>---when the present temp is not the required one to delete<<<<<<<--//
+	else if(temp->info > num)
+	{
+		deletion(temp->left,temp);
+	}
+	else if(temp->info < num)
+	{
+		deletion(temp->right,temp);
+
+	}
+	//else
+	//{
+	//	;
+	//}
+	}
+
+
+ 
+ void main()
+ {
+	 system("TITLE Rahila Syed");
+	 bst s;
+	 system("cls");
+	 char ch;
+	 while(4)
+	 {
+		 s.options();
+		 ch=getch();
+		 switch(ch)
+		 {
+		 case '1':
+			 system("cls");
+			 cout<<"enter the number to add in tree  : "<<endl;
+			 cin>>s.num;
+			 s.insertion(s.root);
+			 break;
+		 case '2':
+			 system("cls");
+			 s.in_order(s.root);
+			 break;
+			 case '3':
+			 system("cls");
+		cout<<"\n Enter number to delete from the tree... \n";
+		cin>>s.num;
+		s.deletion( s.root,s.root );
+		break;
+		 case '4':
+			 exit(0);
+			 break;
+		 default:
+			 exit(0);
+			 break;
+		 }
+	 }
+	 system("PAUSE");
+ }

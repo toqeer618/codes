@@ -1,0 +1,47 @@
+#include<iostream>
+#include<conio.h>
+using namespace std;
+void main()
+{
+	int a[10][10],m=0,n=0;
+	for(int i=0;i<10;i++)
+	for(int j=0;j<10;j++)
+		a[i][j]=0;
+   	for(int i=0;i<10;i++) 
+	{
+		cout<<"\n\t Enter values "<<i<<": ";
+	  cin>>a[i][0];
+	}
+   for(int i=0;i<10;i++)
+   {
+	   m=a[i][0];
+	   for(int j=9;j>=0;j--)
+	   {
+	    if(m<10)
+		{a[i][j]=m;break;}
+		n=m%10;a[i][j]=n;m=m-n;m=m/10;
+	   }
+   }
+  for(int j=9;j>=0;j--)
+  {
+	  for(int i=0;i<10;i++)
+	  {
+		  for(int k=i;k<10;k++)
+		  {
+		    if(a[i][j]>a[k][j])
+			{           
+			   m=a[i][j];a[i][j]=a[k][j];
+			   a[k][j]=m;
+
+			}
+		  }
+	  }
+  }
+	for(int j=0;j<10;j++)
+	cout<<"\n \tvalues are: "<<a[j][0];
+
+
+getch();
+}
+
+

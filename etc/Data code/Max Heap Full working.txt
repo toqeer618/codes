@@ -1,0 +1,364 @@
+//======================================================
+//======================================================
+//======================================================
+#include<iostream>
+#include<cmath>
+using namespace std;
+static bool sr=false;
+struct node
+{
+ int info;
+ node*left,*right;
+};
+class avl
+{
+private:
+	 int ht,nm;
+	 double maxnd,totalnd;
+ int count;
+ int count2;
+bool flag;
+int sign;
+int swap;
+//====================================================================
+//====================================================================
+public:
+	node*root,*temp3,*trail,*blast;
+	int key; 
+
+	avl()
+	{
+    	root=NULL; temp3=NULL; trail=NULL;
+		flag=true; count=0; count2=0;
+	    key=sign=swap=0;
+	    maxnd=0; totalnd=0; ht=nm=1; sr=false;
+	}
+//=====================================
+	int heightss(node*temp)
+	{
+		int c=0;
+		while(temp->left!=NULL)
+		{temp=temp->left; c++;}
+		return c;		
+	}
+
+//=====================================
+//      code-1
+//-------------------------------------
+void addnode(node *temp1,int num)
+{
+	nm=1;       //necessary else code will b wrong
+	node*p;
+	p=new node;
+	p->info=num;
+	p->left=NULL;
+	p->right=NULL;
+ if(root==NULL)
+    {root=p; trail=root; count++; return;}
+   ht=heightss(root);
+   maxnd=pow(2.0,ht+1)-1;
+ if(count==maxnd)
+	{
+	  while(temp1->left!=NULL)
+      temp1=temp1->left;
+      temp1->left=p;
+	  trail=temp1;
+	  count++;
+      return;
+	}
+ update(root,ht);
+if(flag==true)
+	{		
+		temp3->left=p;
+		trail=temp3;
+		count++;
+		return;
+	}
+if(flag==false)
+	{
+		temp3->right=p;
+		trail=temp3;
+		count++;
+		return;
+	}
+
+}
+//////-------------------------------------
+void update(node *tm,double hs)
+{
+	if(tm->left==NULL)
+	{
+		//cout<<"\tAdded to left of : "<<tm->left<<endl;
+	  nm=2;
+	  flag=true;
+	  temp3=tm;
+	  return;
+	}
+	if(tm->right==NULL)
+	{
+	  //cout<<"\tAdded to right of : "<<tm->right<<endl;
+	  nm=2;
+	  flag=false;
+	  temp3=tm;
+	  return;
+	}
+	if(hs>1)
+		update(tm->left,hs-1);
+	if(hs>1 && nm==1)
+		update(tm->right,hs-1);
+}
+//////-------------------------------------
+//////-------------------------------------
+//       In-Order search
+void searching(node *temp, int key)
+	{
+		//nm=1;
+		if(temp==NULL)
+		  {cout<<"\tNo Tree found\n\n"; return;}
+		if(temp->left!=NULL)
+			searching(temp->left,key);
+		if(temp->info==key)
+		  { cout<<"\n\tYes Key found Successfully\n\n";  sr=true; return; }
+		if(temp->right!=NULL)
+			searching(temp->right,key);
+	}
+//-----------------------------------------
+//-------------------------------------
+//-----------------------------------------
+
+//         Min Heap >
+void perculateUp(node*temp,double ht)
+{
+	if(ht>=1)
+	{
+		if(temp->left!=NULL)
+		perculateUp(temp->left,ht-1);
+		if(temp->right!=NULL)
+		perculateUp(temp->right,ht-1);  
+	}
+	if(temp->left!=NULL)
+	if(temp->info < temp->left->info)
+	{
+		int a=temp->info;
+		temp->info=temp->left->info;
+		temp->left->info=a;
+		return;
+	}
+	if(temp->right!=NULL)
+	if(temp->info < temp->right->info)
+	{
+		int a=temp->info;
+		temp->info=temp->right->info;
+		temp->right->info=a;
+		return;
+	}	
+}
+//-----------------------------------------
+//-----------------------------------------
+
+void preorder(node*temp)
+ {
+   	if(temp==NULL) 
+	   {cout<<"No tree found\n"; return;}
+	cout<<temp->info<<"  ";
+	if(temp->left!=NULL)
+		preorder(temp->left);
+	if(temp->right!=NULL)
+		preorder(temp->right);
+ }
+//-------------------------------
+void inorder(node*temp)
+ {
+   	if(temp==NULL) 
+	   {cout<<"No tree found\n"; return;}
+	if(temp->left!=NULL)
+		inorder(temp->left);
+	cout<<temp->info<<" ";
+	if(temp->right!=NULL)
+		inorder(temp->right);
+ }
+//------------------------
+//==============================================
+//====================================================================
+void swapin(int &a,int &b)
+{
+	int tem=a;
+	a=b;
+	b=tem;
+	return;
+}
+//====================================================================
+void perculateDown(node*temp)
+{
+	if(temp==NULL)
+	  {cout<<"\tNo Tree found\n\n"; return;}
+	if(temp->left!=NULL && temp->right!=NULL)
+	  {
+		  if(temp->left->info >= temp->right->info)
+		  {
+			  swapin(temp->info,temp->left->info); temp3=temp->left;
+                    
+
+			  if(temp->left!=NULL)
+		      perculateDown(temp->left);
+		  }
+		  else
+		  {
+			  swapin(temp->info,temp->right->info); temp3=temp->right;
+			            
+			  if(temp->right!=NULL)
+		      perculateDown(temp->right);
+		  }
+	  }
+	     if(temp->left!=NULL && temp->right==NULL)
+		 {
+			
+			 if(temp->info >=temp->left->info)
+		     { 
+				  swapin(temp->info,temp->left->info);	  temp3=temp->left;
+			             
+			}
+		 }
+}
+//---------------------------------------------
+int downper(node*temp)
+{
+  count2=0;
+  temp3=NULL;
+
+      if(temp==NULL)
+	  {cout<<"\tNo Tree found\n\n"; return 0;}
+      perculateDown(temp);
+
+	if(trail->left==NULL && trail->right==NULL && trail==root)
+	{
+		root->left=NULL;  root->right=NULL;
+		 delete root; root=NULL;
+		cout<<"\troot deleted...\n\n";
+		return 0;
+	}
+	if(trail->left!=NULL && trail->right==NULL)
+	   {	swapin(temp3->info,trail->left->info);		}
+	if(trail->left!=NULL && trail->right!=NULL)
+	   {    swapin(temp3->info,trail->right->info);		}
+     
+	  int a=deletofTrail();
+	  count--;
+      setTrail(root,heightss(root),(count/2));
+	    
+	  return a;
+}
+//---------------------------------------------
+//to delete the last info where trail is stand;
+int deletofTrail()
+{
+	int replace=0;    
+    // Savin and deleting the last node value
+	if(trail->left!=NULL && trail->right==NULL)
+	{
+		replace=trail->left->info; delete trail->left; trail->left=NULL;  return replace;
+	}
+	if(trail->left!=NULL && trail->right!=NULL)
+	{
+		replace=trail->right->info; delete trail->right; trail->right=NULL; return replace;
+	}
+}
+//-----------------------------------------
+	//limit means ...count/2...where Trail is to point,,,then this will set the ptr to that count
+	//if(temp==NULL)
+	//{cout<<"\tNo Tree found\n\n"; return;}
+	// Divide the count by 2 so {count/2=Ans} use floor function to remove the points i.e 3.78
+	//  at Ans(count) is the right place of Trail
+void setTrail(node*temp,int limit,int hs)
+{
+	++count2;  
+	if(count2==limit)
+		{
+			nm=2; trail=temp; return;
+		}
+	if(hs>1)
+		setTrail(temp->left,limit,hs-1);
+	if(hs>1 && nm==1)
+		setTrail(temp->right,limit,hs-1);
+}
+//-----------------------------------------
+//==============================================================================================
+
+////////////////////////////////////////////////
+//==============================================
+//----------------------------------------------
+void manue()
+ {
+  cout<<"\t\tEnter  '1'  for  Insert Node\n\n";
+  cout<<"\t\tEnter  '2'  for  Height Node\n\n";
+  cout<<"\t\tEnter  '3' for  Count  Node\n\n";
+  cout<<"\t\tEnter  '4'  for  Back To Manue\n\n";
+  cout<<"\t\tEnter  '5'  for  Print\n\n";
+  cout<<"\t\tEnter  '6'  for  Exit   Programme \n\n";
+ }
+};
+
+
+int main()
+{
+	avl s;
+	int nm;
+	//char ch;
+	//int num;
+	for(int i=0;i<6;i++)
+	{
+		cout<<"\n\nEnter Number : ";
+		cin>>nm;
+	 	s.addnode(s.root,nm);
+		s.perculateUp(s.root,s.heightss(s.root));
+        s.inorder(s.root);
+	}
+
+	for(int i=0;i<6;i++)
+	{
+		cout<<"this is 1st info deleted : "<<s.downper(s.root)<<endl;
+		cout<<endl;
+		s.inorder(s.root);
+	}
+	    
+//	while(9)
+//{
+//	s.manue();
+//	cout<<"\n\n\t\tEnter Your Choice  : ";
+//    cin>>ch;
+//	system("cls");
+//    switch(ch)
+//	{ 
+//	      case '1':
+//        	cout<<"\n\n\n\t\tEnter Key To Insert  : ";
+//            cin>>num;     cout<<"\n\n";
+//            s.addnode(s.root,num);
+//              break;
+//		  case '2':
+//          	 cout<<"\n\n\n\t\tHeight : "<<s.height(s.root)<<endl<<endl;;
+//			  break;
+//           case '3':
+//                   cout<<"\n\n\n\t\tCount is  : "<<count<<endl<<endl;
+//				  break;
+//		   case '4':
+//			  break;
+//		   case '5':
+//				s.inorder(s.root);
+//				cout<<"\n\n";
+//				  break;
+//		   case '6':
+//			   exit(0);
+//				  break;
+//  		   default:
+//			   cout<<"\n\n\n\nError : Wrong Key Entered\n";
+//			   exit(0);
+//     		  break;
+//	}
+//}
+ 
+
+ cout<<endl;
+ system("pause");
+}
+
+

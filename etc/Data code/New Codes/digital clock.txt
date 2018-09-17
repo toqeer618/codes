@@ -1,0 +1,58 @@
+include irvine32.inc
+.data
+sec byte 0
+min byte 0
+hour byte 0
+count dword ?
+count1 dword ?
+.code
+main proc
+xor ecx,ecx
+mov ecx,24
+xor ebx,ebx
+mov bl,min
+mov bh,hour
+L1:
+mov count,ecx
+mov ecx,60
+xor eax,eax	;to reset sec by mov al to min
+mov bl,al	;reset min
+L2:
+mov count1,ecx
+mov ecx,60
+xor eax,eax	;to reset sec by mov al to sec
+mov sec,al	;reset sec
+L3:
+mov al,bh	;mov hour to al
+call writedec	;display hour
+;----------------------------------------------------
+;mov dx,378h     ; parallel port is 378 hex
+;out dx,al       ; write it
+;----------------------------------------------------
+mov al,':'
+call writechar
+mov al,bl	;mov min to al
+call writedec	;display min
+;----------------------------------------------------
+;mov dx,378h     ; parallel port is 378 hex
+;out dx,al       ; write it
+;----------------------------------------------------
+mov al,':'
+call writechar
+mov al,sec
+call writedec
+mov ax,1000
+call delay
+xor eax,eax
+call clrscr
+inc sec
+loop L3
+mov ecx,count1
+inc bl		 ;inc min
+loop L2
+mov ecx,count
+inc bh		 ;inc hour
+loop L1
+exit
+main endp
+end main 

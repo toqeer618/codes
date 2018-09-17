@@ -1,0 +1,134 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+void selection_sort1(int ar[],int siz);
+void selection_sort2(int ar[],int siz);
+void bubble_sort1(int ar[],int size);
+void bubble_sort2(int ar[],int size);
+int main()
+{
+
+  int size=10;
+  int p[10];
+
+	  for(int i=0;i<size;i++)
+	  {
+		  cout<<"Enter the <"<<i+1<<">  Value  : ";
+		  cin>>p[i]; 
+		  cout<<endl;
+	  }
+  //Ascending order
+  //selection_sort1(p,size);
+	  bubble_sort1(p,size);
+	  for(int i=0;i<size;i++)
+	  {
+		cout<<p[i]<<"  ";
+	  }
+   cout<<endl;
+   //descending order
+   //selection_sort2(p,size);
+	   bubble_sort2(p,size);
+	  for(int i=0;i<size;i++)
+	  {
+		cout<<p[i]<<"  ";
+	  }
+
+  system("pause");
+}
+//==================================================
+void swapin(int &a,int &b)
+{
+  int tem=a;
+  a=b;
+  b=tem;
+}
+//---------------------------------------------------
+//        Ascending order
+void selection_sort1(int ar[],int siz) 
+{
+	 //this loop starts from zero run upto max.size
+	// this starts from i+1 means every time starts from
+   // next index of the i and ,, runs each time one less      
+  // Bcoz in selelection sort one or(first) item is fixed so
+ // first loop is run upto (size-1)
+// if(a[i]>a[j]) means 1st > 1st+1
+//it works either i<size and i<size-1
+  for(int i=0;i<siz;i++)     
+  {
+      for(int j=i+1;j<siz;j++)
+	  {
+	    if(ar[i]>=ar[j])
+		{
+		       int temp=ar[i];
+		       ar[i]=ar[j];
+			   ar[j]=temp;
+		}
+	  }                                    
+  }
+}
+//---------------------------------------------------
+//        descending order
+void selection_sort2(int ar[],int siz) 
+{
+	 //this loop starts from zero run upto max.size
+	// this starts from i+1 means every time starts from
+   // next index of the i and ,, runs each time one less      
+  // Bcoz in selelection sort one or(first) item is fixed so
+ // first loop is run upto (size-1)
+// if(a[i]>a[j]) means 1st > 1st+1
+//it works either i<size and i<size-1
+  for(int i=0;i<siz;i++)     
+  {
+      for(int j=i+1;j<siz;j++)
+	  {
+	    if(ar[i]<=ar[j])
+		{
+		       int temp=ar[i];
+		       ar[i]=ar[j];
+			   ar[j]=temp;
+		}
+	  }                                    
+  }
+}
+
+//---------------------------------------------------
+//        Ascending order
+// 1st loop starts from i=1 Bcz ,,, pehley pass k liaye 1st and 2nd item ko compare kiya to
+// hm ne loop j ko N se ek bar kam chalayen gy q k for  1st and 2nd item it needs 1 pass 
+// so agr size 2 ho to outer loop ek bar chaley ga isi tarh agr size=n to outer loop will n-1...
+// means start outer loop from i=1;
+void bubble_sort1(int ar[],int size)
+{
+
+  for(int i=1;i<size;i++)     
+  {
+      for(int j=0;j<size-i;j++)
+	  {
+	    if(ar[j]>ar[j+1])
+		{
+		   int temp=ar[j];
+		       ar[j]=ar[j+1];
+			   ar[j+1]=temp;
+		}
+	  }                                    
+  }
+}
+//---------------------------------------------------
+//        Ascending order
+void bubble_sort2(int ar[],int size)
+{
+
+  for(int i=1;i<size;i++)     
+  {
+      for(int j=0;j<size-i;j++)
+	  {
+	    if(ar[j]<ar[j+1])
+		{
+		       int temp=ar[j];
+		       ar[j]=ar[j+1];
+			   ar[j+1]=temp;
+		}
+	  }                                    
+  }
+}
+//---------------------------------------

@@ -1,0 +1,221 @@
+*********************************Merge Sort************************************************
+
+#include<conio.h>
+#include<iostream>
+#include<fstream>
+#include<string>
+using namespace std;
+void merge(int[], int[], int, int);
+void combine(int[], int[], int, int, int);
+void main()
+{
+	int a[10], b[10];
+	ifstream infile;
+	infile.open("in.txt");
+	for (int i = 0; i<10; i++)
+		cin >> a[i];
+	merge(a, b, 0, 9);
+	for (int i = 0; i<10; i++)
+		cout << a[i] << " ";
+	cout << endl;
+	_getch();
+	infile.close();
+} //
+void merge(int a[], int b[], int first, int last)
+{
+	if (first == last)
+		return;
+	int middle = (first + last) / 2;
+	merge(a, b, first, middle);
+	merge(a, b, middle + 1, last);
+	combine(a, b, first, middle, last);
+} //
+void combine(int a[], int b[], int first, int middle, int last)
+{
+	int j = first;
+	int k = middle + 1;
+	int i = first;
+	while ((j <= middle) && (k <= last))
+	{ 
+		if ((a[j]>a[k]))
+		{
+			cout<<"if((a[j]>a[k])):"<<endl;
+			b[i] = a[k];
+			i++;
+			k++;
+		}
+		else
+		{
+			b[i] = a[j];
+			j++;
+			i++;
+		}
+	}
+	while (j <= middle)
+	{
+		b[i] = a[j];
+		i++;
+		j++;
+	}
+	while (k <= last)
+	{
+		b[i] = a[k];
+		i++;
+		k++;
+	}
+	for (int i = first; i <= last; i++)
+	{
+		a[i] = b[i];
+		cout<<"a[i]:"<<a[i]<<endl;
+	}
+}
+
+****************************************Radix Sort*****************************
+#include<iostream>
+#include<conio.h>
+using namespace std;
+void main()
+{
+	int a[10][10], m = 0, n = 0;
+	for (int i = 0; i<10; i++)
+	{
+		cout << "\n\t Enter values " << i << ": ";
+		cin >> a[i][0];
+	}
+	for (int i = 0; i<10; i++)
+	{
+		m = a[i][0];
+		for (int j = 9; j >= 0; j--)
+		{
+			if (m<10)
+			{
+				a[i][j] = m; break;
+			}
+			n = m % 10; a[i][j] = n; m = m - n; m = m / 10;
+		}
+	}
+	for (int j = 9; j >= 0; j--)
+	{
+		for (int i = 0; i<10; i++)
+		{
+			for (int k = i; k<10; k++)
+			{
+				if (a[i][j]>a[k][j])
+				{
+					m = a[i][j]; a[i][j] = a[k][j];
+					a[k][j] = m;
+
+				}
+			}
+		}
+	}
+	for (int j = 0; j<10; j++)
+		cout << "\n \tvalues are: " << a[j][0];
+
+
+	_getch();
+}
+******************************************Radix String Example*******************************
+#include <iostream>
+#include <fstream>
+#include <string> 
+using namespace std;//
+struct ver
+{
+	string info;
+	ver *link;
+	ver()
+	{
+		info = "0";
+		link = NULL;
+	}
+};
+class graph
+{
+	ver *ed_form;
+public:
+	graph()
+	{
+		ed_form = NULL;
+	}
+	void radix(string a[], int size, int range)
+	{
+		string abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		ver *node;
+		int m = 10, n = 1;
+		ver *vertices;
+		vertices = new ver[26];
+		for (int l = 0; l<26; l++)
+		{
+			vertices[l].info = abc[l];
+		}
+		for (int i = 1; i <= range; i++)
+		{
+			string str, div;
+			for (int j = 0; j<size; j++)
+			{
+				str = a[j];
+				div = str[range - i];
+				node = new ver;
+				node->link = NULL;
+				node->info = a[j];
+				for (int x = 0; x<26; x++)
+				{
+					if (div == (vertices[x].info))
+						ed_form = &vertices[x];
+				}
+				while (ed_form->link != NULL)
+				{
+					ed_form = ed_form->link;
+				}
+				ed_form->link = node;
+			}
+			int index = 0;
+			for (int d = 0; d<26; d++)
+			{
+				ed_form = &vertices[d];
+				while (ed_form->link != NULL)
+				{
+					a[index] = ed_form->link->info;
+					index++;
+					ed_form = ed_form->link;
+				}
+			}
+			cout << endl;
+			{
+			}
+			for (int k = 0; k<26; k++)
+				vertices[k].link = NULL;
+		}
+	}
+};
+void main()
+{
+	int a, b;
+	string *arr;
+	graph obj;
+	ifstream infile;
+	infile.open("in.txt");
+	a = 8; //cout<<"enter the max range :";
+	b = 3;
+	arr = new string[a];
+	for (int i = 0; i<a; i++)
+	{
+		infile >> arr[i];
+	}
+	cout << "The given string is : ";
+	for (int j = 0; j<a; j++)
+	{
+		cout << arr[j] << " ";
+	}
+	obj.radix(arr, a, b);
+	cout << "The sorted string is given : ";
+	for (int j = 0; j<a; j++)
+	{
+		cout << arr[j] << " ";
+	}
+	cout << endl;
+	system("pause");
+}
+
+

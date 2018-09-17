@@ -1,0 +1,3427 @@
+******************* link list using array *************************************
+
+#include <iostream>
+#include <conio.h>
+using namespace std;
+class list
+{
+private:
+     int *temp, *head;
+     int length, size,location;
+public:
+     list();
+     ~list();
+     void option();
+     void get();
+     void view();
+     void update();
+     void tlength();
+     void back();
+     void next();
+     void current();
+     void start();
+     void end();
+     void add();
+     void remove();
+     void search();
+};
+
+list :: list()
+{
+     temp = head = NULL;
+     length = size = location = 0;
+     cout << "\t List Using Array";
+     cout << "\nEnter the total list size: ";
+     cin >> size;
+     temp = new int[size];
+     head = temp;
+}
+
+void list :: option()
+{
+     system("cls");
+     cout << "\n=======================";
+     cout << "\n\tList Menu";
+     cout << "\n=======================";
+     cout << "\n1 : Update List Element";
+     cout << "\n2 : Length List Element";
+     cout << "\n3 : Back List ELement";
+     cout << "\n4 : Next List Element";
+     cout << "\n5 : Start Element of List";
+     cout << "\n6 : End Element of List";
+     cout << "\n7 : Add List Element";
+     cout << "\n8 : Remove List Element";
+     cout << "\n9 : View All List Elements";
+     cout << "\n10 : Search List Element";
+     cout << "\n11 : Current Cursor Position";
+}
+
+void list :: get()
+{
+     cout << "\nHow Many Integer do u Want to Enter: ";
+     cin >> length;
+     if(size >= length)
+     {
+          for(int i=1; i<=length; i++)
+          {
+               cout << "\nEnter "<<i<<" integer: ";
+               cin >> *temp;
+               ++temp;
+          }         
+     }
+     else
+     {
+          cout << "\nYou enter Unvalid list size";       
+     }
+     temp=head+length-1;
+}
+
+void list :: update()
+{
+     int update;
+	 temp = head;
+	 cout << "\nEnter the location where u want to add: ";
+     cin >> location;
+	 if((location<length) && (location>=0))
+	 {
+          cout<<"\nEnter value on that location "<<location<<" : ";
+          cin >> update;
+          temp = head + location-1;
+          *temp = update;
+     }
+     else
+		  cout << "\nInvalid Location";
+}
+
+void list :: start()
+{
+     temp = head;
+     cout << "\nFirst element of List is " << *temp;
+}
+
+void list :: view()
+{
+     temp = head;
+     if(length == 0)
+     {cout << "\nNo element in List ...!";
+     return;}
+     else{
+     cout << "\nElement of  array are " ;
+     for(int i=0; i<length; i++)
+     {
+             cout << *temp << " ";
+             ++temp;
+     }
+     cout << endl;}
+}
+
+void list :: end()
+{
+     temp = head + length - 1;
+     cout << "\nLast element of List is " << *temp;
+}
+
+void list :: tlength()
+{
+     cout << "\nThe length of List is " << length;
+}
+
+void list :: current()
+{
+     cout << "\nCurrent position of Cursor is " << *temp;
+}
+
+void list :: remove()
+{
+     temp=head;
+     cout << "\nEnter location where u want to remove: ";
+     cin >> location;
+     if(location<=length && location>=0)
+     {
+          for(int i=location; i<length; i++)
+          {
+               *(temp+i-1)=*(temp+i);
+          }
+     length--;
+     temp = head+location;
+     }
+     else
+         cout<<"\nInvalid Location";
+}
+
+void list :: add()
+{
+     if(length==size)
+     {
+                     cout<<"\nList is Already Full.....!";
+     }
+     else{
+          temp=head+length;
+             cout << "\nEnter location where u want to add: ";
+             cin >> location;
+             if(location<=length && location>=0)
+             {
+                  for( temp>=head+location-1; temp--;)
+                  {
+                       *(temp+1)=*temp;
+                  }
+             length++;
+             temp=head+location-1;
+             cout<<"\nEnter New value for "<<location<<" :";
+             cin>>*temp;
+             }
+             else
+                 cout<<"\nInvalid Location";
+             }
+}
+void list :: search()
+{
+     temp=head;
+     int seach;
+     cout << "\nEnter integer which u wants of search:" ;
+	 cin >> seach;
+	 for(int i=0; i<=length; i++)
+	 {
+		if(*(temp+i)==seach)
+		{   
+			location=i+1;
+			break;
+		}
+    }
+    cout << "\nLocation of integer is =" << location;
+}
+
+void list :: next()
+{
+     if(temp==head+length-1)
+     {
+          cout << "\nCursor is already at last location...!"; 
+     }
+     else if(temp!=head+length-1)
+     {
+          temp = ++temp;
+          cout << "\nThe next element of List is " << *temp;
+     }
+}
+
+void list :: back()
+{
+     if(temp==head)
+     {
+            cout << "\nCursor is already at first location...!";
+     }
+     else if(temp!=head)
+     {
+            temp = --temp;
+            cout << "\nThe back element of List is " << *temp;
+     }
+}
+
+list :: ~list()
+{
+     delete []temp;
+     delete temp, head;
+}
+
+int main()
+{
+    char ch;
+    int opt;   
+    list ingr;  
+    ingr.get();
+    
+    do
+    {
+         ingr.option();
+         cout << "\nEnter opertion which u perform with array: ";
+         cin >> opt;    
+         switch(opt)
+         {
+                    case 1:
+                         ingr.update();
+                         break;
+                    case 2:
+                         ingr.tlength();
+                         break;
+                    case 3:
+                         ingr.back();
+                         break;
+                    case 4:
+                         ingr.next();
+                         break;
+                    case 5:
+                         ingr.start();
+                         break;
+                    case 6:
+                         ingr.end();
+                         break;
+                    case 7:
+                         ingr.add();
+                         break;
+                    case 8:
+                         ingr.remove();
+                         break;
+                    case 9:
+                         ingr.view();
+                         break;
+                    case 10:
+                         ingr.search();
+                         break;
+                    case 11:
+                         ingr.current();
+                         break;
+                    default:
+                         cout << "\nEnter correct option...! ";
+         }
+         cout << "\nDo u perform more operation [y : n] : ";
+         cin >> ch;
+    }while((ch=='y')||(ch=='Y'));
+}
+
+********************************Link list addition and deletion:**********************
+
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+struct nodetype
+{
+	int info;
+	nodetype *node;
+};
+class linklist
+{
+private:
+	int key;
+	nodetype *head;
+	nodetype *current;
+	nodetype *temp;
+	nodetype *a;
+public:
+	linklist()
+	{
+		
+		head=NULL;
+		current=NULL;
+		temp=NULL;
+		a=NULL;
+	}
+	void add()
+	{
+		if (head==NULL)
+		{
+			head=new nodetype;
+			cout<<"enter the noew node info:";
+			cin>>head->info;
+			current=head;
+			head->node=NULL;
+
+
+		}
+		temp=head;
+		
+		cout<<"enter the data after which u want to enter the value:";
+		cin>>key;
+		while(temp!=NULL)
+		{
+
+			if(temp->info==key)
+			{
+				current=new nodetype;
+				cout<<"enter the new node value:";
+				cin>>current->info;
+				current->node=temp->node;
+				temp->node=current;
+
+			}
+			temp=temp->node;
+
+		}
+
+	}
+
+	void print()
+	{
+		
+		a=head;
+		while (a!=NULL)
+		{
+			cout<<a->info<<" ";
+			a=a->node;
+
+		}
+	}
+
+
+	void del()
+	{
+		int data;
+		
+		cout<<"enter the data for matching and then for delete:";
+		cin>>data;
+		//cout<<"head->info"<<head->info;
+		if (head==NULL)
+		{ return;
+		}
+		temp=head;
+		current= head;
+		
+		while(temp!=NULL)
+		{
+
+			if (head->info==data)
+			{  cout<<"2222222222222222:"<<endl;
+				temp=head;
+				head=head->node;
+				delete temp;
+				current=head;
+				break;
+			}
+
+			
+			if (temp->node->info==data)
+			{   cout<<"1111111111111:"<<endl;
+				current=temp->node;
+				temp->node=temp->node->node;
+				delete current;
+				break;
+			}
+			
+			temp=temp->node;
+			current=temp;
+			
+			
+			
+			
+		}
+
+	}
+	void prt()
+	{
+		
+		a=head;
+		while (a!=NULL)
+		{
+			cout<<a->info<<" ";
+			a=a->node;
+
+		}
+	}
+};
+
+int main()
+{
+	linklist ll;
+int count;
+cout<<"enter the number of element to be added in linklist:";
+cin>>count;
+for(int i=0;i<count;i++)
+{
+	ll.add();
+}
+	cout<<"YOur linklist is here : "<<endl;
+	ll.print();
+	cout<<endl;
+	ll.del();
+	cout<<endl;
+	ll.prt();
+getch();
+}
+
+
+*******************Doubly link list ADDITION AND deletion:***************************
+
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+struct nodetype
+{
+	int info;
+	nodetype *next;
+	nodetype *previous;
+
+};
+class linklist
+{
+private:
+	int key;
+	nodetype *head;
+	nodetype *current;
+	nodetype *temp;
+	nodetype *a;
+public:
+	linklist()
+	{
+		
+		head=NULL;
+		current=NULL;
+		temp=NULL;
+		a=NULL;
+	}
+	void add()
+	{
+		if (head==NULL)
+		{
+			
+				head=new nodetype;
+			cout<<"enter value for 1st node:";
+			cin>>head->info;
+			head->previous=NULL;
+			head->next=NULL;
+			current=head;
+			
+
+		}
+
+		temp=head;
+		
+		cout<<"enter the data after which u want to enter the value:";
+		cin>>key;
+		while(temp!=NULL)
+		{
+
+			if(temp->info==key)
+			{
+				current=new nodetype;
+				cout<<"enter the new node value:";
+				cin>>current->info;
+				current->next=temp->next;
+				temp->next=current;
+				current->previous=temp;
+				break;
+			}
+			temp=temp->next;
+
+
+		}
+
+	}
+	
+	void print()
+	{
+		
+		a=head;
+		while (a!=NULL)
+		{
+			cout<<a->info<<" ";
+			a=a->next;
+
+		}
+	}
+
+
+	void del()
+	{
+		int data;
+		
+		cout<<"enter the data for matching and then for delete:";
+		cin>>data;
+		cout<<"head->info "<<head->info<<endl;
+		if (head==NULL)
+		{ return;
+		}
+		temp=head;
+		current= head;
+		
+		while(temp!=NULL)
+		{
+
+			if (head->info==data)
+			{  cout<<"2222222222222222:"<<endl;
+				temp=head;
+				head=head->next;
+				head->previous=NULL;
+
+				delete temp;
+				current=head;
+				break;
+			}
+
+			
+			if (temp->next->info==data)
+			{   cout<<"1111111111111:"<<endl;
+				current=temp->next;
+				temp->next=temp->next->next;
+				current->next=temp->next;
+				delete current;
+				break;
+			}
+			
+			temp=temp->next;
+			current=temp;
+			
+			
+			
+			
+		}
+
+	}
+	void prt()
+	{
+		
+		a=head;
+		while (a!=NULL)
+		{
+			cout<<a->info<<" ";
+			a=a->next;
+
+		}
+	}
+};
+
+int main()
+{
+	linklist ll;
+int count;
+cout<<"enter the number of element to be added in linklist:";
+cin>>count;
+for(int i=0;i<count;i++)
+{
+	ll.add();
+}
+	cout<<"YOur linklist is here : "<<endl;
+	ll.print();
+	cout<<endl;
+	ll.del();
+	cout<<endl;
+	ll.prt();
+getch();
+}
+
+*****************************Singly ring add and delete********************
+
+# include<iostream>
+# include<conio.h>
+using namespace std;
+struct nodetype
+{
+	int info;
+	nodetype *next;
+
+};
+class linklist
+{
+private:
+	int key;
+	nodetype *head,*current,*temp,*a;
+public:
+	linklist()
+	{
+		head=NULL;
+		current=NULL;
+		temp=NULL;
+		a=NULL;
+
+	}
+	~linklist()
+	{
+		delete head;
+		delete current;
+		delete temp;
+		delete a;
+	}
+	void add()
+	{
+		if (head==NULL)
+		{
+			head= new nodetype;
+			cout<<"enter the value for head:";
+			cin>>head->info;
+			head->next=head;
+			return;
+
+		}
+		temp=head;
+	
+		cout<<"enter key:";
+		cin>>key;
+		do
+		{
+			if(temp->info==key)
+			{
+				current=new nodetype;
+				cout<<"enter the value for new node:";
+				cin>>current->info;
+				current->next=temp->next;
+				temp->next=current;
+			}
+			temp=temp->next;
+			
+		}
+		
+		while(temp!=head);
+	}
+
+		void prt()
+		{
+			a=head;
+			do
+			{
+				
+				cout<<a->info<<" ";
+			    a=a->next;
+			}
+			while(a!=head);
+		}
+	
+	void del()
+	{
+		int data;
+		if(head==NULL)
+		{ return;
+		}
+		current=head;
+		temp=head;
+		cout<<"enter  node to delete:";
+		cin>>data;
+		
+		if(head->info==data)
+			{
+		       while(temp->next!=head)
+			   {
+				temp=temp->next;
+			   }
+				temp->next=head->next;
+				//current=head;
+				head=head->next;
+				delete current;
+				return;
+			}
+		do
+		{	
+			if(temp->next->info==data)
+			{
+				current=temp->next;
+			temp->next=current->next;
+			delete current;
+			break;
+			}
+			temp=temp->next;
+		current=temp;
+		}
+	while(temp!=head);
+		
+		
+	}
+
+};
+	int main()
+	{
+		linklist ll;
+		int x;
+		cout<<"enter for loop running for making node:";
+		cin>>x;
+		for (int i=0;i<x;i++)
+		{
+		ll.add();
+		}
+		ll.prt();
+		cout<<endl;
+		ll.del();
+        cout<<endl;
+		ll.prt();
+
+		getch();
+	} 
+***********************doubly ring add and deletion*************
+
+# include<iostream>
+# include<conio.h>
+using namespace std;
+struct nodetype
+{
+	int info;
+	nodetype *next;
+	nodetype *prev;
+
+};
+class linklist
+{
+private:
+	int key;
+	nodetype *head,*current,*temp,*a;
+public:
+	linklist()
+	{
+		head=NULL;
+		current=NULL;
+		temp=NULL;
+		a=NULL;
+
+	}
+	~linklist()
+	{
+		delete head;
+		delete current;
+		delete temp;
+		delete a;
+	}
+	void add()
+	{
+		if (head==NULL)
+		{
+			head=new nodetype;
+			cout<<"enter value for head:";
+			cin>>head->info;
+			temp=head;
+			
+			temp->next=head;
+			temp->prev=head;
+			return;
+
+		}
+		temp=head;
+	
+		cout<<"enter key:";
+		cin>>key;
+		do
+		{
+			if(temp->info==key)
+			{
+				
+				current=new nodetype;
+				cout<<"enter the new node value:";
+				cin>>current->info;
+				current->next=temp->next;
+				temp->next=current;
+				current->prev=temp;
+				head->prev=current->next;
+				break;
+
+			}
+			temp=temp->next;
+		}
+		
+		while(temp!=head);
+	}
+
+		void prt()
+		{
+			a=head;
+			do
+			{
+				
+				cout<<a->info<<" ";
+			    a=a->next;
+			}
+			while(a!=head);
+		}
+	
+	void del()
+	{
+		int data;
+		if(head==NULL)
+		{ return;
+		}
+		current=head;
+		temp=head;
+		cout<<"enter  node to delete:";
+		cin>>data;
+		
+		if(head->info==data)
+			{
+		      while(temp->next!=head)
+			   {
+				temp=temp->next;
+			   }
+			    head=head->next;
+				temp->next=current->next;
+				head->prev=temp->next;
+				//current=head;
+				
+				delete current;
+				return;
+			}
+		do
+		{	
+			if(temp->next->info==data)
+			{
+				current=temp->next;
+			temp->next=current->next;
+			current->next=temp;
+			delete current;
+			break;
+			}
+			temp=temp->next;
+		current=temp;
+		}
+	while(temp!=head);
+		
+		
+	}
+	
+};
+	int main()
+	{
+		linklist ll;
+		int x;
+		cout<<"enter for loop running for making node:";
+		cin>>x;
+		for (int i=0;i<x;i++)
+		{
+		ll.add();
+		}
+		ll.prt();
+	ll.del();
+	cout<<endl;
+	ll.prt();
+
+		getch();
+	}
+**********************stack ********************
+Stack code:
+
+# include<iostream>
+# include<conio.h>
+using namespace std;
+struct node
+{
+	int info;
+	node *next;
+};
+class stack
+{
+private:
+	node *current;
+	node *top;
+	node *temp;
+	int count;
+	int limit;
+	node *a;
+public:
+	     stack()
+	    {
+		top=NULL;
+		count=0;
+		limit=6;
+	    }
+	~stack()
+	{
+		delete top;
+		delete a;
+	}
+	 
+	    void push()
+      	{
+		   for(int i=0;i<limit;i++)
+	       {
+		      if (top==NULL)
+		        {  
+			      top=new node;
+			      cout<<"enter the value for new node:";
+			      cin>>top->info;
+			      top->next=NULL;
+			      a=top;
+		        }
+		      else
+		        { temp=new node;
+		          cout<<"enter the value for the new node:";
+		          cin>>temp->info;
+		          temp->next=top;
+                  top=temp;
+
+         		}
+		      count++;
+	       if(count > limit)
+		   {return;}
+	
+
+		   }
+	 }
+	void pop()
+	{ 
+		if(top==NULL)
+		{
+			return;
+		}
+		//current=top;
+		temp=top;
+		top=top->next;
+		delete temp;
+	     
+
+	}
+
+void prt()
+	      { 
+			  current=top;
+		    while(current!=NULL) 
+	        {
+		      cout<<current->info<<" ";
+		       current=current->next;
+			   
+	        }
+		
+          }
+
+};
+int main()
+{
+	stack ll;
+	ll.push();
+
+	cout<<endl;
+	ll.pop();
+	ll.prt();
+	cout<<endl;
+		ll.pop();
+	ll.prt();
+	cout<<endl;
+	ll.pop();
+	ll.prt();
+	cout<<endl;
+	ll.pop();
+	ll.prt();
+	cout<<endl;
+	ll.pop();
+	ll.prt();
+	cout<<endl;
+
+
+
+getch();
+}
+************************queue************************
+
+# include <iostream>
+# include <conio.h>
+using namespace std;
+struct nodetype
+{
+	int info;
+	nodetype *next;
+};
+class queue
+{
+private:
+	nodetype *head;
+	nodetype *temp;
+	nodetype *a;
+public:
+	queue()
+	{
+		head=NULL;
+		temp=NULL;
+
+	}
+	~queue()
+	{
+		delete head;
+		delete temp;
+		delete a;
+	}
+	void NQ()
+	{
+		if(head==NULL)
+		{
+			head=new nodetype;
+			cout<<"enter the head value:";
+			cin>>head->info;
+			head->next=NULL;
+			//head=temp;
+		
+
+		}
+		else 
+		{
+			
+			temp=new nodetype;
+			cout<<"enter the value:";
+			cin>>temp->info;
+			temp->next=head->next;
+			head->next=temp;
+			
+		}
+	}
+
+	void DQ()
+	{
+		if(head==NULL)
+	{
+		return;
+
+	}
+		temp=head;
+		head=head->next;
+		delete temp;
+		return;
+	}
+
+	void print()
+	{
+		a=head;
+		while(a->next!=NULL)
+		{
+			cout<<a->info<<" ";
+			a=a->next;
+			
+
+		}
+	}
+	
+};
+
+
+int main()
+{
+	queue k;
+	k.NQ();
+	k.NQ();
+	k.NQ();
+	k.NQ();
+	k.NQ();
+	
+	k.print();
+	cout<<endl;
+	k.DQ();
+	k.print();
+	cout<<endl;
+	k.DQ();
+	k.print();
+	cout<<endl;
+	k.DQ();
+	k.print();
+	cout<<endl;
+	k.DQ();
+	k.print();
+	cout<<endl;
+	
+
+	getch();
+}
+***********************stack as an array********************
+# include<iostream>
+# include<conio.h>
+using namespace std;
+
+class stack
+{
+private:
+	int *top;
+	int *temp;
+	int info;
+	int size;
+	int *array;
+	int *current;
+public:
+	stack(int length)
+	{
+		top=NULL;
+		temp=NULL;
+		current=NULL;
+		size=length;
+		array=new int[size];
+		top =array;
+	}
+    ~stack()
+	{
+		delete top;
+		delete temp;	
+	}
+	void add()
+	{
+		/*if (top==NULL)
+		{
+			top=array;
+			temp=array;
+			cout<<"enter the value in 1st box:";
+			cin>>*top;
+			top++;
+		}
+		else
+		{
+			cout<<"enter the value:";
+			cin>>*top;
+			top++;
+			
+		}
+		*/
+		
+		temp=array;
+		cout<<"enter the value in 1st box:";
+			cin>>*top;
+			top++;
+
+	}
+	void del()
+	{
+		
+		(*top)=0;
+		top--;
+	}
+	void print()
+	{
+		temp=array;
+		current=&array[size];
+		do
+		{
+			cout<<*temp<<" ";
+			temp++;
+		}
+		while(temp!=current);
+	}
+};
+
+
+
+int main()
+{
+	int num;
+	cout<<"enter the size of stack(array):";
+	cin>>num;
+	stack s(num);
+	for(int i=0;i<num;i++)
+	{
+		s.add();
+
+	}
+	s.print();
+	cout<<endl;
+	
+	s.del();
+s.print();
+s.del();
+s.print();
+
+	
+	getch();
+}
+**************************queue as an array********************
+
+# include<iostream>
+# include<conio.h>
+using namespace std;
+
+class queue
+{
+private:
+	int *front;
+	int *rear;
+	int *temp;
+	int *end;
+	int info;
+	int size;
+	int count;
+	int *array;
+public:
+	queue(int length)
+	{
+		front=NULL;
+		rear=NULL;
+		temp=NULL;
+		size=length;
+		array=new int[size];
+        count=0;
+	}
+	~queue()
+	{
+		delete front;
+		delete rear;
+		delete temp;
+		delete end;
+	}
+	void isempty()
+	{
+		if(count==0)
+		cout<<"the queue is empty:"<<endl;
+		else
+		{
+			if(count!=size-1)
+			{
+				cout<<"the queue exist and is not full:"<<endl;
+			}
+		}
+	
+	}
+	void isfull()
+	{
+		if(count==size-1)
+		cout<<"the queue is full:"<<endl;
+		
+	}
+
+	void add()
+	{
+		if(front==NULL)
+		{
+			
+
+			front=array;
+			end=&array[size-1];
+			temp=array;
+			rear=array;
+			cout<<"enter the info in 1st box:";
+			cin>>*rear;
+			rear++;
+			count++;
+			return;
+		}
+		else
+		{
+			if(count>size)
+			{
+				cout<<"queue overflows:"<<endl;
+			
+			}
+			if(count<0)
+			{
+				cout<<"queue underflows:"<<endl;
+			
+			}
+			isfull();
+			isempty();
+			
+			cout<<"enter the new info:";
+			cin>>*rear;
+				count++;
+				
+			rear++;		
+		}
+		
+	}
+	
+	void del()
+	{
+		*front=0;
+		front++;
+		count--;
+		cout<<"count="<<count<<endl;
+	}
+
+	void print()
+	{front=array;
+	rear=&array[size-1];
+		temp=front;
+		while(temp!=rear)
+		{
+			cout<<*temp<<" ";
+			temp++;
+		}
+	}
+
+
+
+
+};
+
+
+
+int main()
+{
+	int num;
+	cout<<"enter the size of array(queue):";
+	cin>>num;
+	queue q(num);
+
+	for(int i=0;i<num;i++)
+	{
+		q.add();
+
+	}
+	q.print();
+	q.del();
+	q.del();
+	q.print();
+	q.del();
+	q.del();
+	q.del();
+	q.del();
+	q.del();
+	q.del();
+	q.del();
+	q.print();
+
+	getch();
+}
+----------------------------------------------
+********************************selection sort in link list************
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+struct nodetype
+{
+	int info;
+	nodetype *node;
+};
+class linklist
+{
+private:
+	int key;
+	nodetype *head;
+	nodetype *current;
+	nodetype *p;
+	nodetype *temp;
+	nodetype *a;
+public:
+	linklist()
+	{
+		
+		head=NULL;
+		current=NULL;
+		temp=NULL;
+		a=NULL;
+	}
+	void add()
+	{
+		if (head==NULL)
+		{
+			head=new nodetype;
+			cout<<"enter the noew node info:";
+			cin>>head->info;
+			current=head;
+			head->node=NULL;
+
+
+		}
+		temp=head;
+		
+		cout<<"enter the data after which u want to enter the value:";
+		cin>>key;
+		while(temp!=NULL)
+		{
+
+			if(temp->info==key)
+			{
+				current=new nodetype;
+				cout<<"enter the new node value:";
+				cin>>current->info;
+				current->node=temp->node;
+				temp->node=current;
+
+			}
+			temp=temp->node;
+
+		}
+
+	}
+
+	void print()
+	{
+		
+		a=head;
+		while (a!=NULL)
+		{
+			cout<<a->info<<" ";
+			a=a->node;
+
+		}
+	}
+
+void Sort()
+{
+    nodetype *h = head, *i, *j;
+    for(i = h; i!=NULL && i->node!=NULL; i=i->node)
+    {
+        nodetype *min;
+        min = i;
+        for(j = i->node; j!=NULL ; j=j->node)
+        {
+            if(j->info < min->info)
+                min=j;
+        }
+        if(min!=i)
+        {
+            int temp;
+            temp = min->info;
+            min->info= i->info;
+            i->info = temp;
+        }
+    }
+    
+}
+
+	
+	void prt()
+	{
+		
+		a=head;
+		while (a!=NULL)
+		{
+			cout<<a->info<<" ";
+			a=a->node;
+
+		}
+	}
+};
+
+int main()
+{
+	linklist ll;
+int count;
+cout<<"enter the number of element to be added in linklist:";
+cin>>count;
+for(int i=0;i<count;i++)
+{
+	ll.add();
+}
+	cout<<"YOur linklist is here : "<<endl;
+	ll.print();
+	cout<<endl;
+	ll.Sort();
+	ll.prt();
+getch();
+}
+**************************************bubble sort in linklist**********
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+struct nodetype
+{
+	int info;
+	nodetype *node;
+};
+class linklist
+{
+private:
+	int key;
+	nodetype *head;
+	nodetype *current;
+	nodetype *p;
+	nodetype *temp;
+	nodetype *a;
+public:
+	linklist()
+	{
+		
+		head=NULL;
+		current=NULL;
+		temp=NULL;
+		a=NULL;
+	}
+	void add()
+	{
+		if (head==NULL)
+		{
+			head=new nodetype;
+			cout<<"enter the noew node info:";
+			cin>>head->info;
+			current=head;
+			head->node=NULL;
+
+
+		}
+		temp=head;
+		
+		cout<<"enter the data after which u want to enter the value:";
+		cin>>key;
+		while(temp!=NULL)
+		{
+
+			if(temp->info==key)
+			{
+				current=new nodetype;
+				cout<<"enter the new node value:";
+				cin>>current->info;
+				current->node=temp->node;
+				temp->node=current;
+
+			}
+			temp=temp->node;
+
+		}
+
+	}
+
+	void print()
+	{
+		
+		a=head;
+		while (a!=NULL)
+		{
+			cout<<a->info<<" ";
+			a=a->node;
+
+		}
+	}
+
+void bubblesort()
+	{
+		nodetype *i, *j,*small,*h;
+		h=head;
+		for(i=h->node; i!=NULL && i->node!=NULL; i=i->node)
+		{
+			for(j=h; j!=NULL && j->node!=NULL;j=j->node)
+			{
+				if(j->info > j->node->info)
+				{
+					int temp;
+					temp=j->info;
+					j->info=j->node->info;
+					j->node->info=temp;
+				}
+			}
+		}
+
+	}
+
+	
+	void prt()
+	{
+		
+		a=head;
+		while (a!=NULL)
+		{
+			cout<<a->info<<" ";
+			a=a->node;
+
+		}
+	}
+};
+
+int main()
+{
+	linklist ll;
+int count;
+cout<<"enter the number of element to be added in linklist:";
+cin>>count;
+for(int i=0;i<count;i++)
+{
+	ll.add();
+}
+	cout<<"YOur linklist is here : "<<endl;
+	ll.print();
+	cout<<endl;
+	ll.bubblesort();
+	ll.prt();
+getch();
+}
+*********************************binary search in array(array should be sorted first)*****************
+
+# include<iostream>
+# include<conio.h>
+using namespace std;
+int search(int list[],int length,int number)
+{
+ int first=0;
+int last=length-1;
+int mid;
+
+bool found=false;
+while(first<=last && !found)
+{mid=(first+last)/2;
+	if(list[mid]==number)
+		{
+	found=true;
+		
+	}
+	
+	
+	else if(list[mid]<number)
+		first=mid+1;
+	else
+		last=mid-1;
+}
+if(found)
+	return mid;
+else 
+	return -1;
+}
+int main()
+{
+	int length=11;
+	int number;
+	int a[11];
+	for(int i=0;i<length;i++)
+	{
+		cin>>a[i];
+	}
+	for(int i=0;i<length;i++)
+	{
+		cout<<a[i]<<" ";
+	}
+	
+	cout<<"enter the number to find in array:";
+	cin>>number;
+   search(a,length,number);
+
+	getch();
+
+}
+
+*****************************factorial through recursion************************
+
+# include <iostream>
+# include <conio.h>
+using namespace std;
+int recursion(int numb)
+{
+	if (numb<=0)
+		return 1;
+	else 
+		return numb*recursion(numb-1);
+
+
+}
+
+int main()
+{
+	int num;
+	cout<<"enter the number for finding its factorial:";
+	cin>>num;
+	cout<<"the factorial of "<<num<<" is: "<<recursion(num)<<endl;
+	getch();
+}
+***************************power x^n through recursion***************
+# include<iostream>
+# include<conio.h>
+using namespace std;
+int power(int x,int n)
+{
+	if(n==0)
+		return 1;
+	else if(n==1)
+		return x;
+	else 
+		return x+power(x,n-1);
+
+}
+
+
+int main()
+{int x;
+int n;
+cout<<"enter the x :";
+cin>>x;
+cout<<"enter the n :";
+cin>>n;
+cout<<"the power is:"<<power(x,n)<<endl;
+	getch();
+}
+******************************recursion examples**************************************************
+
+----------------------For largest element in an array:-----------------------
+# include <iostream>
+# include <conio.h>
+using namespace std;
+
+int largest(int list[],int x,int y)
+{
+	int max;
+	
+	if(x==y)
+		return list[x];
+		
+	else
+	{
+		max=largest(list,x+1,y);
+			if(list[x]>=max)
+				return list[x];
+			else 
+				return max;
+ }
+		
+		
+
+
+}
+int main()
+{
+	int list[5];
+for (int i=0;i<5;i++)
+{
+	cin>>list[i];
+
+}
+for (int i=0;i<5;i++)
+{
+	cout<<list[i]<<" ";
+
+}
+cout<<endl;
+cout<<largest(list,0,4);
+	
+	getch();
+}
+
+---------------------For reversing an array:-------------------------
+
+# include <iostream>
+# include <conio.h>
+using namespace std;
+
+void rev(int list[],int x,int y)
+{
+	if(x==y)
+	cout<<" ";
+	if(x<=y)
+	{
+		rev(list,x+1,y);
+			cout<<list[x]<<" ";
+	}
+	
+
+}
+int main()
+{
+	int list[5];
+for (int i=0;i<5;i++)
+{
+	cin>>list[i];
+
+}
+for (int i=0;i<5;i++)
+{
+	cout<<list[i]<<" ";
+
+}
+cout<<endl;
+rev(list,0,4);
+	
+	getch();
+}
+
+---------------For generating fibonnochi  number:---------------------------
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+int fib(int one, int two,int n)
+{
+	if(n==1)
+		return one;
+	else if(n==2)
+		return two ;
+	else 1
+		return fib(one,two,n-1) +fib(one,two,n-2);
+	
+}
+int main()
+{
+	int x,y,n;
+	cout<<"enter the 1st number:";
+	cin>>x;
+	cout<<endl;
+	cout<<"enter the 2nd number:";
+	cin>>y;
+	cout<<endl;
+cout<<"enter the nth number:";
+	cin>>n;
+	cout<<endl;
+	cout<<"the fibonochi number at position nth position is:"<<fib(x,y,n)<<endl;
+
+	getch();
+}
+
+-----------------For reversing a string :------------------------
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+void rev(char ch[],int x,int size)
+{
+	
+	if (x==size-1)
+		cout<<"";
+	else if(x<=size-1)
+		rev(ch,x+1,size);
+	cout<<ch[x];
+		
+}
+int main()
+{
+	char ch[6];
+	cout<<"enter your full name:";
+	cin>>ch;
+	rev(ch,0,6);
+	
+
+	getch();
+}
+
+---------------For adding numbers less then it:--------------------
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+int add(int x)
+{
+	if (x==0)
+		return 0;
+	else 
+		return x+add(x-1);
+		
+	
+	
+}
+int main()
+{
+	int num;
+	cout<<"enter the number :";
+	cin>>num;
+	cout<<add(num);
+	
+	getch();
+}
+
+----------------------For adding of random numbers in array:----------------
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+int add(int list[],int x)
+{
+	if(x==0)
+	{
+		return 0;
+	}
+	else
+	{
+		return list[0] +add(list+1,x-1);
+	}
+		
+	
+	
+}
+int main()
+{
+	int list[5]={32,43,65,12,98};
+	
+	cout<<add(list,5);
+	
+	getch();
+}
+
+******************************threaded *********************
+#include<iostream>
+# include<conio.h>
+using namespace std;
+struct node
+{
+  int info;
+  int rght;
+  int lft;
+  node *left;
+  node *right;
+};
+class thread
+{
+  private:
+public:
+	node *dump;
+	node *root,*temp1;
+	  thread()
+	  {
+		 root=0;
+		 dump=0;
+	  }
+   void insert(node *temp,int key)
+	  {
+	    if(dump==0)
+		{
+          	  dump=new node;
+		  root=new node;
+		  root->info=key;
+		  root->left=dump;
+		  root->right=dump;
+		  dump->left=root;
+		  dump->right=dump;
+		  dump->lft=dump->rght=0;
+		  root->lft=root->rght=1;
+		  cout<<"h1"<<"\n";
+		  return;
+		}
+		else
+		{
+		   if(key>temp->info)
+		   {
+		     if(temp->rght!=1)
+				 insert(temp->right,key);
+			   if(temp->rght==1)
+			     {
+			      	   temp1=new node;
+				   temp1->info=key;
+				   temp1->right=temp->right;
+				   temp1->left=temp;
+				   temp->rght=0;
+				   temp->right=temp1;
+				   temp1->rght=1;
+				   temp1->lft=1;
+				   cout<<"h2"<<"\n";
+			     }
+		   }
+			   
+		     if(key<temp->info)
+		      {
+		     if(temp->lft!=1)
+				 insert(temp->left,key);
+			   if(temp->lft==1)
+			     {
+			       temp1=new node;
+				   temp1->info=key;
+				   temp1->left=temp->left;
+				   temp1->right=temp;
+				   temp->left=temp1;
+				   temp->lft=0;
+				   temp1->rght=1;
+				   temp1->lft=1;
+				   cout<<"h3"<<"\n";
+			     }	   
+			   }
+		}
+   }
+node* nextInorder(node* p)
+  { 
+  if(p->rght==1) 
+  return(p->right); 
+  else { 
+    p = p->right; 
+    while(p->lft==0) 
+      p = p->left; 
+    return p; 
+  } 
+} 
+   void print(node* temp)
+   {
+	 
+     while((temp=nextInorder(temp))!=dump)
+		 cout<<temp->info<<" ";
+   }
+  
+};
+void main()
+{
+ int key;  
+ thread obj;
+ cout<<"Enter the value for insert node:";
+ cin>>key;
+ obj.insert(obj.root,key);
+ cout<<"Enter the value for insert node:";
+ cin>>key;
+ obj.insert(obj.root,key);
+ cout<<"Enter the value for insert node:";
+ cin>>key;
+ obj.insert(obj.root,key);
+ cout<<"Enter the value for insert node:";
+ cin>>key;
+ obj.insert(obj.root,key);
+ obj.print(obj.dump);
+getch();
+}
+
+*************************************kami+nomi*******************
+# include<iostream>
+# include<conio.h>
+using namespace std;
+struct node
+{
+	int info;
+	node *left;
+	node *right;
+
+};
+class tree
+{
+private:
+	node *temp;
+public:
+	node *root;
+	int number;
+	node *curr;
+	node *curr1, *curr2;
+
+
+	//1 tree();
+	// 2 void tree(node *);
+	//3 void options();
+	//4 void inorder(node *);
+	tree ()
+	{
+		root=temp=NULL;
+		
+		curr1 = curr2 = temp;
+	}
+	 void insert( node * temp)
+	 {
+		 if(root==NULL)
+		 {
+			 temp=new node;
+			 temp->info=number;
+			 temp->left=NULL;
+			 temp->right=NULL;
+			 root=temp;
+			 return;
+		 }
+		 if(temp->info==number)
+		 {
+			 cout<<"the number already exist:"<<endl;
+			 return;
+		 }
+		 if(temp->info>number)
+		 {
+			 if(temp->left!=NULL)
+			 {
+				 insert(temp->left);
+				 return;
+			 }
+			 else 
+			 {
+				 temp->left=new node;
+				 temp->left->info=number;
+				 temp->left->left=NULL;
+				 temp->left->right=NULL;
+				 return;
+			 }
+		}
+
+		 if(temp->info<number)
+		 { 
+			 if(temp->right!=NULL)
+			 {
+				 insert(temp->right);
+				 return;
+			 }
+			 else
+			 {
+				 temp->right=new node;
+				 temp->right->info=number;
+				 temp->right->left=NULL;
+				 temp->right->right=NULL;
+				 return;
+			 }
+
+		 }
+
+	 }
+
+	 void options()
+	 {
+		 cout<<"enter 1 insertion: "<<endl;
+		 cout<<"enter 2 for printing: "<<endl;
+		 cout<<"enter 3 for deletion:"<<endl;
+		 cout<<"enter 4 for quit: "<<endl;
+		
+	}
+	 void inorder(node *temp)
+	 { cout <<endl;
+		 if(root==NULL)
+			{ cout<<"the tree is empty:"<<endl;
+		 return;
+		 }
+		 if(temp->left!=NULL)
+		  inorder(temp->left);
+		 cout<<temp->info<<" ";
+		 if(temp->right!=NULL)
+		 inorder(temp->right);
+		 return;
+	 }
+	
+	 void deletion(node *temp, int number)
+{
+	bool a = false;
+	if (root == NULL)
+	{
+		cout << "TREE is Empty!!" << endl;
+		return;
+	}
+	//-----------------------------Number Found-------------------
+	if (temp->info == number)
+	{
+		a = true;
+		//------------------------- Case 1------------------
+		if (temp->left == NULL && temp->right == NULL)
+		{
+
+
+			curr1->left = NULL;
+			curr1->right = NULL;
+			delete temp;
+			cout << "NODE Deleted !\n";
+			return;
+		}
+		//------------------------ Case 2--------------------
+		if ((temp->left == NULL && temp->right != NULL) || (temp->left != NULL && temp->right == NULL))
+		{
+			if (temp->left == NULL && temp->right != NULL)
+			{
+				if (curr1->info < temp->info)
+				{
+					curr1->right = temp->right;
+				}
+				if (curr1->info > temp->info)
+				{
+
+					curr1->left = temp->right;
+				}
+				delete temp;
+				temp = NULL;
+				cout << "Right node Deleted!\n";
+				return;
+			}
+			if (temp->left != NULL && temp->right == NULL)
+			{
+				if (curr1->info < temp->info)
+				{
+					curr1->right = temp->left;
+				}
+				if (curr1->info > temp->info)
+				{
+					curr1->left = temp->left;
+				}
+				delete temp;
+				cout << "Left node Deleted!\n";
+				temp = NULL;
+				return;
+			}
+		}
+		//------------------------- Case 3--------------------
+		if (temp->left != NULL && temp->right != NULL)
+		{
+			curr = temp;
+			curr = temp->right;
+			if (curr->left != NULL)                        ;SUCESSOR
+			{
+				while (curr->left != NULL)
+				{
+					curr2 = curr;
+					curr = curr->left;
+				}
+				temp->info = curr->info;
+				curr2->left = NULL;           //curr2->left =curr->right
+				delete curr;
+				curr = NULL;
+			}
+			else
+			{
+				temp->info = curr->info;
+				temp->right = curr->right;
+				delete curr;
+				curr = NULL;
+			}
+			return;
+
+		}
+	}
+	if (a != true && temp->left == NULL && temp->right == NULL)
+	{
+		cout << "Sorry! Key Not Found.\n";
+		return;
+	}
+	if (temp->info >number)
+	{
+		curr1 = temp;
+		deletion(temp->left, number);
+		return;
+	}
+	if (temp->info < number)
+	{
+		curr1 = temp;
+		deletion(temp->right, number);
+		return;
+	}
+	if (a == false)
+	{
+		cout << "This number is not in the tree. \n";
+	}
+}
+
+};
+
+int main()
+{
+	char ch;
+	tree obj;
+	int num;
+		while(4)
+	{
+		obj.options();
+		ch=getch();
+		switch(ch)
+		{
+		case '1':
+			cout<<"enter the info for adding new node:";
+			cin>>obj.number;
+			obj.insert(obj.root);
+			break;
+		case '2':
+			obj.inorder(obj.root);
+			break;
+		case '3':
+			cout << "Enter The number you want to delete .\n";
+			cin >> num;
+			obj.deletion(obj.root, num);
+			cout << endl;
+			break;
+
+		break;
+		case '4':
+			exit(0);
+			break;
+		default:
+			exit(0);
+			break;
+			}
+     }
+	getch();
+}
+***********************************BST FULL CODE********************
+#include <iostream>
+using namespace std;
+
+//---------------------------------------- CLASS OF BST ------------------------------------
+class Tree
+{
+	struct node
+	{
+		int info;
+		node *left;
+		node *right;
+	};
+	node *temp;
+public:
+	node *root;
+	node *curr;
+	node *curr1, *curr2;
+
+	int number;
+	Tree()
+	{
+		root = temp = NULL;
+		curr1 = curr2 = temp;
+	}
+	void insertion(node *);
+	void search();
+	void in_order(node *temp);
+	void post_order(node *temp);
+	void pre_order(node *);
+	int number_nodes(node *temp);
+	void deletion(node *temp, int number);
+	void succesor(node *temp);
+	void menu();
+};
+//---------------------------------------- MENU --------------------------------------------
+void Tree::menu()
+{
+	cout << "\t\tLIsT of Operations. \n\n";
+	cout << "\t1.Insertion.\n";
+	cout << "\t2.Deletion.\n";
+	cout << "\t3.In_Order.\n";
+	cout << "\t4.Post_Order.\n";
+	cout << "\t5.Pre_Order\n";
+	cout << "\t6.Number of nodes\n";
+	cout << "\t7.EXIT\n";
+
+	cout << endl;
+}
+//---------------------------------------- DELETION ----------------------------------------
+void Tree::deletion(node *temp, int number)
+{
+	bool a = false;
+	if (root == NULL)
+	{
+		cout << "TREE is Empty!!" << endl;
+		return;
+	}
+	//-----------------------------Number Found-------------------
+	if (temp->info == number)
+	{
+		a = true;
+		//------------------------- Case 1------------------
+		if (temp->left == NULL && temp->right == NULL)
+		{
+
+
+			curr1->left = NULL;
+			curr1->right = NULL;
+			delete temp;
+			cout << "NODE Deleted !\n";
+			return;
+		}
+		//------------------------ Case 2--------------------
+		if ((temp->left == NULL && temp->right != NULL) || (temp->left != NULL && temp->right == NULL))
+		{
+			if (temp->left == NULL && temp->right != NULL)
+			{
+				if (curr1->info < temp->info)
+				{
+					curr1->right = temp->right;
+				}
+				if (curr1->info > temp->info)
+				{
+					curr1->left = temp->right;
+				}
+				delete temp;
+				temp = NULL;
+				cout << "Right node Deleted!\n";
+				return;
+			}
+			if (temp->left != NULL && temp->right == NULL)
+			{
+				if (curr1->info < temp->info)
+				{
+					curr1->right = temp->left;
+				}
+				if (curr1->info > temp->info)
+				{
+					curr1->left = temp->left;
+				}
+				delete temp;
+				cout << "Left node Deleted!\n";
+				temp = NULL;
+				return;
+			}
+		}
+		//------------------------- Case 3--------------------
+		if (temp->left != NULL && temp->right != NULL)
+		{
+			curr = temp;
+			curr = temp->right;
+			if (curr->left != NULL)
+			{
+				while (curr->left != NULL)
+				{
+					curr2 = curr;
+					curr = curr->left;
+				}
+				temp->info = curr->info;
+				curr2->left = NULL;
+				delete curr;
+				curr = NULL;
+			}
+			else
+			{
+				temp->info = curr->info;
+				temp->right = curr->right;
+				delete curr;
+				curr = NULL;
+			}
+			return;
+
+		}
+	}
+	if (a != true && temp->left == NULL && temp->right == NULL)
+	{
+		cout << "Sorry! Key Not Found.\n";
+		return;
+	}
+	if (temp->info >number)
+	{
+		curr1 = temp;
+		deletion(temp->left, number);
+		return;
+	}
+	if (temp->info < number)
+	{
+		curr1 = temp;
+		deletion(temp->right, number);
+		return;
+	}
+	if (a == false)
+	{
+		cout << "This number is not in the tree. \n";
+	}
+}
+//---------------------------------------- Successor ---------------------------------------
+void Tree::succesor(node *temp)
+{
+	temp = temp->right;
+	while (temp->left != NULL)
+	{
+		temp = temp->left;
+	}
+}
+//---------------------------------------- Insertion ---------------------------------------
+void Tree::insertion(node *temp)
+{
+	if (root == NULL)
+	{
+		temp = new node;
+
+		temp->info = number;
+		temp->left = NULL;
+		temp->right = NULL;
+		root = temp;
+		return;
+	}
+
+	if (temp->info == number)
+	{
+		cout << " \n Given number is already present in tree.\n";
+		return;
+	}
+
+	//temp=root;
+	if (temp->info > number)
+	{
+		if (temp->left != NULL)
+		{
+			insertion(temp->left);
+			return;
+		}
+		else
+
+			temp->left = new node;
+		temp->left->info = number;
+		temp->left->left = NULL;
+		temp->left->right = NULL;
+		return;
+
+	}
+	//temp=root;
+	if (temp->info < number)
+	{
+		if (temp->right != NULL)
+		{
+			insertion(temp->right);
+			return;
+		}
+		else
+			temp->right = new node;
+
+		temp->right->info = number;
+		temp->right->left = NULL;
+		temp->right->right = NULL;
+		return;
+
+	}
+	//break;
+	//temp=root;
+}
+//---------------------------------------- In Order ----------------------------------------
+void Tree::in_order(node *temp)
+{
+	if (root == NULL)
+	{
+		cout << "TREE IS EMPTY" << endl;
+		return;
+	}
+	if (temp->left != NULL)
+	{
+		in_order(temp->left);
+	}
+	cout << temp->info << "  ";
+	if (temp->right != NULL)
+	{
+		in_order(temp->right);
+		//return;
+	}
+}
+//---------------------------------------- Post Order --------------------------------------
+void Tree::post_order(node *temp)
+{
+	if (root == NULL)
+	{
+		cout << "TREE IS EMPTY" << endl;
+		return;
+	}
+	if (temp->right != NULL)
+	{
+		post_order(temp->right);
+	}
+	if (temp->left != NULL)
+	{
+		post_order(temp->left);
+	}
+	cout << temp->info << " ";
+
+}
+//---------------------------------------- Pre ORDER ---------------------------------------
+void Tree::pre_order(node *temp)
+{
+	if (root == NULL)
+	{
+		cout << "TREE IS EMPTY" << endl;
+		return;
+	}
+	cout << temp->info << " ";
+
+	if (temp->left != NULL)
+	{
+		pre_order(temp->left);
+	}
+	if (temp->right != NULL)
+	{
+		pre_order(temp->right);
+	}
+
+}
+//---------------------------------------- Number OF Nodes ---------------------------------
+int Tree::number_nodes(node *temp)
+{
+	int c = 0;
+	int d = 0;
+	if (temp == NULL)
+	{
+		cout << "TREE IS EMPTY" << endl;
+		return d;
+	}
+	if (temp->left != NULL)
+	{
+
+		c += number_nodes(temp->left);
+	}
+	; c++;
+	if (temp->right != NULL)
+	{
+
+		c += number_nodes(temp->right);
+
+	}
+	return (c);
+
+}
+//---------------------------------------- Main Body ---------------------------------------
+void main()
+{
+	Tree a;
+	int number;
+	a.menu();
+	cout << "\n\n";
+	char ch;
+	while (1)
+	{
+		cout << "Enter your Choise : ";
+		cin >> ch;
+		system("cls");
+		switch (ch)
+		{
+		case '1':
+			cout << "ENTER THE VALUE : ";
+			cin >> a.number;
+			a.insertion(a.root);
+			cout << endl;
+			break;
+		case '2':
+			cout << "Enter The number you want to delete .\n";
+			cin >> number;
+			a.deletion(a.root, number);
+			cout << endl;
+			break;
+		case '3':
+			cout << endl << "IN ORDER : ";
+			a.in_order(a.root);
+			cout << endl;
+			cout << "\n";
+			break;
+		case '4':
+			cout << endl << "POST ORDER : ";
+			a.post_order(a.root);
+			cout << "\n";
+			cout << endl;
+			break;
+		case '5':
+			cout << endl << "PRE ORDER : ";
+			a.pre_order(a.root);
+			cout << "\n";
+			cout << endl;
+			break;
+		case '6':
+			cout << "Total NUMBER of NOdes in THE TREE " << endl;
+			cout << a.number_nodes(a.root) << "\n";
+			break;
+		case '7':
+			exit(0);
+		default:
+			cout << "Invalid Option!\n";
+			cout << endl;
+		}
+
+		a.menu();
+	}
+}
+
+
+
+****************************** AVL  ****************************
+
+
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+    struct node
+    {
+        int info;
+        node *left,*right;
+    };
+
+class tree
+{
+    node *temp;
+    node*temp1;
+    public:
+     node *root;
+    bool y;
+    int hight;
+    void insert(node *temp,int num);
+    void in_order(node*temp);
+    void delet(int,node *temp);
+    void find_hight(node *temp);
+    int find_balance(node *temp);
+    char menue();
+    tree()
+    {
+        hight=0;
+        y=false;
+        temp=temp1=root=NULL;
+    }
+};
+int tree::find_balance(node *temp)
+{
+    int h=0;
+    int h1=0;
+    if(temp->left!=NULL)
+           {
+                  hight++;
+          find_hight(temp->left);
+          h=hight;
+      }
+       hight=0;
+      if(temp->right!=NULL)
+      {
+          hight++;
+          find_hight(temp->right);
+      }
+   else 
+   {
+       hight=0;
+   }
+  
+    h1=h-hight;
+    hight=0;
+    cout<<" the balance factor of "<<temp->info<<" is "<<h1<<endl;
+    return h1;
+}
+node * successor(int num,node *temp2)
+{
+    if(temp2->left->left==NULL)
+        return temp2;
+    else 
+        return successor(num,temp2->left);
+}
+void tree::delet(int key,node*temp)
+{
+    if(temp==NULL)
+    {
+        cout<<"\n\n\tTHE TREE IS EMPTY!!!!"<<endl;
+        return;
+    }
+    if((temp->info==key) && (temp->left==NULL) && (temp->right==NULL))
+    {
+        delete temp;
+        temp=NULL;
+        root=NULL;
+        return;
+    }
+    
+
+    //for no child
+    if(temp->left!=NULL)
+    {
+        if((temp->left->info==key) && (temp->left->left==NULL) && (temp->left->right==NULL))
+        {
+            delete temp->left;
+            temp->left=NULL;
+            return;
+            
+        }
+
+    }
+    
+    if(temp->right!=NULL)
+    {
+        if((temp->right->info==key) && (temp->right->left==NULL) && (temp->right->right==NULL))
+        {
+            delete temp->right;
+            temp->right=NULL;
+            return;
+        }
+    }
+
+    //for one child case 2
+    if((temp->left!= NULL) && (key==temp->left->info))
+    {
+        if((temp->left->left!=NULL) && (temp->left->right==NULL))
+        {
+            temp1=temp->left;
+            temp->left=temp1->left;
+            delete temp1;
+            return;
+        }
+        if((temp->left->left==NULL) && (temp->left->right!=NULL))
+        {
+            temp1=temp->left;
+            temp->left=temp1->right;
+            delete temp1;
+            return;
+        }
+    }
+    if((temp->right!=NULL) && (key==temp->right->info))
+    {
+        if((temp->right->left!=NULL) && (temp->right->right==NULL))
+        {
+            temp1=temp->right;
+            temp->right=temp1->left;
+            delete temp1;
+            return;
+        }
+        if((temp->right->left==NULL) && (temp->right->right!=NULL))
+        {
+            temp1=temp->right;
+            temp->right=temp1->right;
+            delete temp1;
+            return;
+        }
+    }
+    if( (temp->info==key) && (( (temp->left!=NULL) && (temp->right==NULL) ) || ( (temp->left==NULL)&&(temp->right!=NULL) ) ))
+    {
+        if(temp->left!=NULL)
+        {   
+            temp1=temp->left;
+            temp->info=temp->left->info;
+            temp->left=temp1->left;
+            temp->right=temp1->right;
+            delete temp1;
+            return;
+
+
+            
+        }
+        if(temp->right!=NULL)
+        {
+            temp1=temp->right;
+            temp->info=temp->right->info;
+            temp->left=temp1->left;
+            temp->right=temp1->right;
+            delete temp1;
+            return;
+
+        }
+    }
+
+
+
+    //case 3 node having two childs
+    if((temp->info==key) && (temp->left!=NULL) && (temp->right!=NULL))
+    {
+        if(temp->right->left==NULL)
+        {
+            temp->info=temp->right->info;
+            delet(temp->right->info,temp);
+                return;
+        }
+        if(temp->right->left!=NULL)
+        {
+        node *immed_success=successor(key,temp->right);
+        temp->info=immed_success->left->info;
+        delet((immed_success->left->info),immed_success);
+        return;
+        }
+    }
+
+    if(key>(temp->info))
+        delet(key,(temp->right));
+    else if(key<(temp->info))
+        delet(key,(temp->left));
+}
+char tree::menue()
+{
+    char m;
+    cout<<"\n\n\ta.TO INSERT"
+        <<"\n\n\tb.TO PRINT IN in ORDER"
+        <<"\n\n\tc.TO DELETE "
+        <<"\n\n\te.exit";
+    cin>>m;
+    return m;
+}
+
+void tree::in_order(node*temp)
+{
+   if(temp==NULL)
+     {    cout<<" Tree is empty.\n";       
+            return;   
+     }
+   if( temp->left!=NULL )
+             in_order(temp->left);
+   cout<<temp->info<<" ";
+   if( temp->right!=NULL )
+             in_order(temp->right);
+
+}
+void tree::insert(node*temp,int num )
+{
+    int bal_factor=0;
+
+   if(temp==NULL)
+   {
+       temp=new node;
+       temp->info=num;
+       temp->left=temp->right=NULL;
+       root=temp;
+       return  ;
+   }
+   if(temp->info==num)
+   { 
+       cout<<"number is repeated "<<endl;
+       
+   }
+   else if(temp->left==NULL  && num<temp->info)
+   {
+       temp->left=new node;
+       temp->left->info=num;
+       temp->left->left=temp->left->right=NULL;
+       
+   }
+   else if( temp->right==NULL && num>temp->info)
+   {
+       temp->right=new node;
+       temp->right->info=num;
+       temp->right->left=temp->right->right=NULL;
+   }
+   else if(temp->left!=NULL && num<temp->info)
+   {
+       insert(temp->left,num);
+   }
+   
+   else if(temp->right!=NULL && num>temp->info)
+   {
+    insert(temp->right,num);
+    
+   }
+    if(y==1)
+   {
+       if(num>temp->info)
+           temp->right=temp1;
+       else if(num<temp->info)
+           temp->left=temp1;
+   }
+   bal_factor=find_balance(temp);
+        
+       
+    if((bal_factor>1) || (bal_factor<-1))
+    {
+        if(num>temp->info)
+        {
+            //case four
+            if(num>temp->right->info)
+            {
+                temp1=temp->right;
+                temp->right=temp1->left;
+                temp1->left=temp;
+                
+                if(temp==root)
+                root=temp1;
+                else
+                {
+                    temp=temp1;
+                }
+                y=1;
+                cout<<"left rotate only!!!!!!!!!!!!"<<endl;
+                return;
+            }
+            //right left rotation, case 3
+            else if(num<temp->right->info)
+            {
+                //right rotate
+                temp1=temp->right;
+                temp->right=temp1->left;
+                
+                temp1->left=temp->right->right;
+                temp->right->right=temp1;
+                //left rotat
+                temp1=temp->right;
+                temp->right=temp1->left;
+                temp1->left=temp;
+                
+                if(temp==root)
+                root=temp1;
+                else
+                temp=temp1;
+                cout<<"right left rotation$$$$$$$$"<<endl;
+                y=1;
+                return;
+            }
+        }
+        if(num<temp->info)
+        {
+            //case one
+            if(num<temp->left->info)
+            {
+                temp1=temp->left;
+                temp->left=temp1->right;
+                temp1->right=temp;
+                
+                if(temp==root)
+                root=temp1;
+                else
+                  temp=temp1;
+                cout<<"only right rotation "<<endl;
+                y=1;
+                return;
+            }
+        }
+            //case 2
+            if(num>temp->left->info)
+            {
+                temp1=temp->left;
+                temp->left=temp1->right;
+                temp1->right=temp->left->left;
+                temp->left->left=temp1;
+
+                temp1=temp->left;
+                temp->left=temp1->right;
+                temp1->right=temp;
+                
+                if(temp==root)
+                root=temp1;
+                else
+                      temp=temp1;
+                y=1;
+                cout<<"lefth right rotation "<<endl;
+                return;
+
+            }
+        }
+
+   return ;
+}
+void tree::find_hight(node*temp)
+{
+    if((temp->left==NULL) && (temp->right==NULL))
+        return;
+    if(temp->left!=NULL)
+    {
+        hight++;
+        find_hight(temp->left);
+    }
+    if(temp->right!=NULL)
+    {
+                hight++;
+        find_hight(temp->right);
+    }
+    if((temp->left!=NULL) && (temp->right!=NULL))
+    {
+        hight--;
+    }
+
+}
+int main()
+{
+    tree t;
+    int n,key;
+    char choice=0;
+    char ch,c;
+
+    
+    do
+    {
+        char choice=t.menue();
+        if(choice=='a')
+        {
+            cout<<"enter number ended with 0"<<endl;
+            do
+            {
+                cin>>n;
+                t.insert(t.root,n);
+                t.y=false;
+                cout<<"\n\n\tDO WANT TO INSET ANOTHER?"<<endl;
+                cin>>c;
+            }
+            while(c=='y');
+            system("cls");
+        }
+        else if(choice=='b')
+            t.in_order(t.root);
+        else if(choice=='c')
+        {
+            do
+            {
+            cout<<"\n\n\tENTER THE NUMBER YOU WANT TO DELETE:";
+            cin>>key;
+            t.delet(key,t.root);
+            cout<<"\n\n\tDO YOU WANT TO DELETE ANOTHER?:";
+             ch=getche();
+            }
+            while(ch=='y');
+        }
+
+    }
+    while(choice!='e');
+    
+    getch();
+}
+
+
+
+*********************************BCT HEAP******************
+# include<iostream>
+# include<conio.h>
+#include<stdlib.h>
+using namespace std;
+struct node
+{
+	node *left;
+	node *right;
+	int info;
+
+};
+class bctheap
+{
+	
+private:
+	node *temp;
+public:
+	node *root;
+	
+	double max1,max2,count;
+	int max;
+	int p;
+	int jmp;
+	int a;
+	int key;
+	bool found;
+	int swap;
+	bctheap()
+	{
+		found=false;
+		root=temp=NULL;
+		max1=max2=count=0.0;
+		max=a=p=swap=0;
+	}
+
+	void insert(node *temp)
+	{
+		found=false;
+		if(root==NULL)
+		{
+			temp=new node;
+			temp->info=key;
+			temp->left=NULL;
+			temp->right=NULL;
+			count=count+1;
+			root=temp;
+			return;
+		}
+		if(temp->left!=NULL && temp->right!=NULL)
+		{
+			if(temp->left!=NULL)
+			{
+				jmp++;
+				if(jmp==max && count!=max2)
+				{
+					jmp--;
+					return;
+				}
+				insert(temp->left);
+				jmp--;
+				if(found)
+				{
+				return;
+				}
+			}
+			if(temp->right!=NULL)
+			{  
+				jmp++;
+				if(jmp==max && count!=max2)
+				{
+					jmp--;
+					return;
+				}
+				insert(temp->right);
+				jmp--;
+				if(found)
+				{
+					return;
+				}
+				return;
+			}
+
+		
+		}
+		if(temp->left==NULL && temp->right==NULL)
+		{
+			temp->left=new node;
+			temp->left->info=key;
+			temp->left->left=NULL;
+			temp->left->right=NULL;
+			count=count +1;
+			found=true;
+			return;
+		}
+		if(temp->left!=NULL && temp->right==NULL)
+		{
+			temp->right=new node;
+			temp->right->info=key;
+			temp->right->left=NULL;
+			temp->right->right=NULL;
+			count=count +1;
+			found=true;
+			return;
+		}
+
+
+	}
+	void height(node *temp)
+	{
+		if(root==NULL)
+		{
+			cout<<"the tree is empty:"<<endl;
+			return;
+		}
+		if(temp->left!=NULL)
+		{
+			a++;
+			if(max<a)
+			{
+				max=a;
+			}
+			height(temp->left);
+			a--;
+		}
+		if(temp->right!=NULL)
+		{
+			a++;
+			if(max<a)
+			{
+				max=a;
+			}
+			height(temp->right);
+			a--;
+		}
+	}
+
+	void print(node *temp)
+	{
+		if(root==NULL)
+		{
+			//cout<<"the tree is empty:";
+			return;
+		}
+		if(temp->left!=NULL)
+			print(temp->left);
+		cout<<temp->info<<" ";
+		if(temp->right!=NULL)
+		print(temp->right);
+		return;
+	}
+
+	void perculatedown(int *ary,int i)
+	{
+		if(ary[2*i]<ary[(2*i)+1] && ary[i]>ary[2*i])
+		{
+			p++;
+			swap=ary[i];
+			ary[i]=ary[2*i];
+			ary[2*i]=swap;
+
+		}
+		if(ary[2*i]>ary[(2*i)+1] && ary[i]>ary[(2*i)+1])
+		{
+			p++;
+			swap=ary[i];
+			ary[i]=ary[(2*i)+1];
+			ary[(2*i)+1]=swap;
+		}
+	}
+	void bheap(int *ary,int size)
+	{
+		p=0;
+		for(int i=size/2;i>0;i--)
+		{
+			perculatedown(ary,i);
+		}
+	}
+
+
+
+
+
+
+
+};
+
+
+
+
+
+
+int main()
+{
+	int size=0;
+	bctheap obj;
+	int *ary=new int[16];
+	for (int i=1;i<16;i++)
+    {
+		cout<<"enter the value for node:";
+		cin>>obj.key;
+		obj.height(obj.root);
+		ary[i]=obj.key;
+		obj.max1=pow(2,obj.max);
+		obj.max2=(pow(2,(obj.max+1)))-1.0;
+		obj.insert(obj.root);
+		size++;
+	}
+	cout<<endl;
+	cout<<"your BCT is here:"<<endl;
+	obj.print(obj.root);
+	cout<<endl;
+	cout<<"building heap:"<<endl;
+
+	bool f=false;
+	while(!f)
+	{
+		obj.bheap(ary,size);
+		if(obj.p==0)
+		{  f=true;
+			break;
+		}
+		for(int i=1;i<size;i++)
+		{
+			cout<<ary[i]<<" ,";
+		}
+		
+	}
+	getch();
+}
+*********************************hashing code******************************
+# include <iostream>
+# include<conio.h>
+using namespace std;
+
+ int rem;
+ 
+	
+	
+  void insert(int *ary,int size,int k)
+	  {
+		  int i=0;
+		 int count;
+		
+		    cout<<"enter the value :";
+		    cin>>i;
+			rem=i % size;
+			count=rem;
+			  if(ary[rem]==-1)
+			     ary[rem]=i;
+			  else
+			     {  while(count!=-1)
+			         {
+
+						 if(ary[count]==-1)
+				        { ary[count]=i;
+				          break;
+				        }
+					   
+					   
+				        count++;
+			         }
+			      if(count==size)
+			        {
+			          count=0;
+			          while(count!=rem)
+			             { if(ary[count]==-1)
+			                 { ary[count]=i;
+			                   break;
+			                 }
+		                	count++;
+		                }
+			        }
+
+			  }
+
+		 
+       
+ 
+		  
+  }
+void print(int *ary,int size)
+{
+	for (int j=0;j<size;j++)
+	{
+		cout<<j<<" "<<ary[j]<<endl;
+	}
+}
+
+
+
+
+int main()
+{ //int size=7;
+ //int array[7];
+	int size;
+	cout<<"enter t he size of array:";
+	cin>>size;
+	int temp;
+	int q;
+int *ary;
+int *table;
+int cnt=0;
+int e=0;
+ary=new int [size];
+ for (int i=0;i<size;i++)
+ { 
+	 ary[i]=-1;
+ }
+ for(int k=0;k<size;k++)
+ {
+	 if(k==size-1)
+	 { 
+	     cnt=size;
+		
+		 size=2*size;
+		 e=size;
+	
+		table=new int[size];
+		for(int y=0;y<size;y++)
+		{
+			table[y]=-1;
+		}
+		for(int y=0;y<size;y++)
+		{ //--------------------------------------
+		  if(ary[y]!=-1)
+		  { temp=ary[y];
+		  rem=temp %size;
+		
+			q=rem;
+			  if(table[rem]==-1)
+			     table[rem]=temp;
+			  else
+			     {  while(q!=-1)
+			         {
+				       if(table[q]==-1)
+				        { table[q]=temp;
+				          break;
+				        }
+					   
+					   
+				        q++;
+			         }
+			      if(q==size)
+			        {
+			        q=0;
+			          while(q!=rem)
+			             { if(table[q]==-1)
+			                 { table[q]=temp;
+			                   break;
+			                 }
+		                	q++;
+		                }
+			        }
+
+			  }
+
+		  }
+		  //----------------------------------------------------------
+			//table[y]=ary[y];
+		}
+		 if(e==size)
+		 {print (table,size);
+		 }
+	 }
+	 insert(ary,size,k);
+
+ }
+  print(ary,size);
+
+	getch();
+}
+**************************************************************

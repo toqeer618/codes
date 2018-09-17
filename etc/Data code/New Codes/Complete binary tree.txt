@@ -1,0 +1,110 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+	int info,flag;
+	node *left,*right;
+};
+class cbt
+{
+public:
+	int num,count;
+	node *p,*root;
+	cbt()
+	{
+		num=count=0;
+		p=root=NULL;
+	}
+	void insert(node * temp)
+	{
+		count++;
+		int c=0;
+		if(temp==NULL)
+		{
+			temp=new node;
+			temp->info=num;
+			temp->flag=1;
+			temp->left=temp->right=NULL;
+			root=temp;
+			return;
+		}
+		else
+		{
+		c=count/2;
+		point(temp,c);
+		cout<<"The parent is : "<<p->info<<endl;
+		if(count%2==0)
+		setleft(p,num);
+		else
+			setright(p,num);
+		}
+		return;
+	}
+	void point(node *temp,int c)
+	{
+		if(temp->flag==c)
+		{
+			p=temp;
+			return;
+		}
+		else
+		{
+			if(temp->left!=NULL)
+				point(temp->left,c);
+			if(temp->right!=NULL)
+				point(temp->right,c);
+		}
+		return;
+	}
+	void setleft(node *temp1,int y)
+	{
+		temp1->left=new node;
+		temp1->left->info=y;
+		temp1->left->left=temp1->left->right=NULL;
+		temp1->left->flag=count;
+		cout<<"Left node has been created : "<<endl;
+		return;
+	}
+	void setright(node *temp2,int z)
+	{
+		temp2->right=new node;
+		temp2->right->info=z;
+		temp2->right->left=temp2->right->right=NULL;
+		temp2->right->flag=count;
+		cout<<"Right child has been created : "<<endl;
+		return;
+	}
+	void in_order(node *temp3)
+	{
+		if(temp3==NULL)
+		{
+			cout<<"The treeis empty : "<<endl;
+			return;
+		}
+		if(temp3->left!=NULL)
+			in_order(temp3->left);
+		cout<<"The node is : "<<temp3->info<<endl;
+		if(temp3->right!=NULL)
+			in_order(temp3->right);
+		return;
+	}
+	~cbt()
+	{
+		delete root,p;
+	}
+};
+void main()
+{
+	system("TITLE Rahila Syed");
+	cbt s;
+	int a;
+	cout<<"enter the no of nodes u want to add : "<<endl;
+	cin>>a;
+	cout<<"Enter the node's info : "<<endl;
+	for(int i=0;i<a;i++)
+	{
+		cin>>s.num;
+		s.insert(s.root);
+	}
+	s.in_order(s.root);
+}

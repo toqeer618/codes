@@ -1,0 +1,239 @@
+#include<iostream>
+#include <conio.h>
+using namespace std;
+struct node
+{
+	int info;
+	node *left,*right;
+};
+class avl
+{
+private:
+	
+public:
+	node *temp;
+	int num;
+//	node *cur,*pre;
+	node *root;
+	avl();
+	void insertion(node *,int);
+	void in_order(node *);
+	//void deletion(node *,node *);
+	void options();
+	int height(node *);
+	int diff(node *);
+	node  *r_rotation(node *);
+	node *l_rotation(node *);
+	node *lr_rotation(node *);
+	node *rl_rotation(node *);
+	//void balance(node *temp);
+	~avl()
+	{
+		delete root,temp;
+	}
+};
+//.....CONSTRUCTOR......................
+ avl::avl()
+{
+	temp=root=NULL;
+ }
+ //.....INSERTION...........................
+ void avl::insertion(node *temp,int num)
+ {
+
+
+   if(temp==NULL)
+   {
+       temp=new node;
+       temp->info=num;
+       temp->left=temp->right=NULL;
+       root=temp;
+       return  ;
+   }
+   if(temp->info==num)
+   { 
+       cout<<"number is repeated "<<endl;
+	return;
+   }
+   else if(temp->left==NULL  && num<temp->info)
+   {
+       temp->left=new node;
+       temp->left->info=num;
+       temp->left->left=temp->left->right=NULL;
+	  
+       
+   }
+   else if( temp->right==NULL && num>temp->info)
+   {
+       temp->right=new node;
+       temp->right->info=num;
+       temp->right->left=temp->right->right=NULL;
+	
+   }
+   else if(temp->left!=NULL && num<temp->info)
+   {
+       insertion(temp->left,num);
+	
+   }
+   
+   else if(temp->right!=NULL && num>temp->info)
+   {
+    insertion(temp->right,num);
+   }
+   	int bal_factor=0;
+	 	 bal_factor=diff(temp);
+	 if(bal_factor==0 || bal_factor==1 || bal_factor==-1)
+	 {
+		 cout<<"The tree is already balanced : "<<endl;
+		 return;
+	 }
+	 //for case 1 and case two
+	 if(bal_factor>1)
+	 {
+		 if(diff(temp->left)>0)
+			 temp=l_rotation(temp);            //case 1 zig zig
+		 else
+			 temp=lr_rotation(temp);            //case 2 zig zag first it will do left rotation ten right............
+
+	 }
+	 // for cas e3 and case 4
+	 else if(bal_factor<-1)
+	 {
+		 if(diff(temp->right)>0)                    //case 3 zag zig first right rotation then left rotation
+			 temp=rl_rotation(temp);
+		 else
+			 temp=r_rotation(temp);                 // case 4 zag zag only right single rotation
+	 }
+	 	cout<<"Now the tree is balanced : "<<endl;
+ }
+ 
+ int avl::height(node *temp)
+ {
+	 int h=0;
+	 if(temp!=NULL)
+	 {
+		 int l_height=height(temp->left);
+		 int r_height=height(temp->right);
+		 int max_height=max(l_height,r_height);
+		 h=max_height+1;
+	 }
+	 return h;
+ }
+ int avl::diff(node *temp)
+ {
+	 int l_height=height(temp->left);
+		 int r_height=height(temp->right);
+		 int b_factor=(l_height-r_height);
+		 return b_factor;
+ }
+ node  *avl::r_rotation(node *temp1)
+ {
+	 temp=temp1->right;
+	 temp1->right=temp->left;
+	 temp->left=temp1;
+	return temp;
+	// return;
+ }
+ 
+  node  *avl::l_rotation(node *temp1)
+ {
+	 temp=temp1->left;
+	 temp1->left=temp->right;
+	 temp->right=temp1;
+	 return temp;
+	 //return;
+ }
+ node *avl::lr_rotation(node *temp1)
+  {
+	  
+
+	  temp1->left=r_rotation(temp);
+	  temp->right=temp1;
+	  return lr_rotation(temp1);
+
+  }
+ node  *avl::rl_rotation(node *temp1)
+ {
+	
+
+	 temp1->right=l_rotation(temp);
+	  temp->right=temp1;
+	  return rl_rotation(temp1);
+
+ }
+
+ //...........insertion function ends ...........................................//
+ //...........IN-ORDER..................
+ void avl::in_order(node *temp)
+ {
+	 if(root==NULL)
+	 {
+		 cout<<"The tree is empty : "<<endl;
+		 return;
+	 }
+	 if(temp->left!=NULL)
+	 {
+		 in_order(temp->left);
+	 }
+	 cout<<temp->info<<" ";
+	 if(temp->right!=NULL)
+	 {
+		 in_order(temp->right);
+	 }
+
+	 return;
+ }
+ //..........end of in-order .....................
+ //..........OPTIONS ..................
+ void avl::options()
+ {
+	 cout<<"\n\n ************** Select Option *****************.\n";
+	 cout<<"Enter the option you want to perform : "<<endl;
+	 cout<<"\n 1:Enter for insertion : "<<endl;
+	 cout<<"\n 2:Enter for print : "<<endl;
+	 cout<<"\n 3: Balance tree.\n";
+	 cout<<"\n 4:Enter for exit : "<<endl;
+ }
+ //.........OPTIONS END...........
+
+
+ 
+ void main()
+ {
+	 system("TITLE Rahila Syed");
+	 avl s;
+	 system("cls");
+	 char ch;
+	 while(5)
+	 {
+		 s.options();
+		 ch=getch();
+		 switch(ch)
+		 {
+		 case '1':
+			 system("cls");
+			 cout<<"enter the number to add in tree  : "<<endl;
+			 cin>>s.num;
+			 s.insertion(s.root,s.num);
+			 break;
+		 case '2':
+			 system("cls");
+			 cout<<"Print : "<<endl;
+			 s.in_order(s.root);
+			 break;
+		/* case '3':
+			 system("cls");
+			 cout<<"Balance of tree : "<<endl;
+			 s.balance(s.root);
+			 break;
+			*/
+		 case '4':
+			 exit(0);
+			 break;
+		 default:
+			 exit(0);
+			 break;
+		 }
+	 }
+	 system("PAUSE");
+ }

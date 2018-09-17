@@ -1,0 +1,118 @@
+#include<iostream>
+using namespace std;
+struct node
+{
+	int info;
+	node *left,*right;
+	int rth,lth;
+};
+class thread
+{
+public:
+	node *dummy,*temp,*root;
+	int num;
+	thread()
+	{
+		dummy=temp=root=NULL;
+	}
+	void insert(node *temp,int num)
+	{
+		
+		dummy=new node;
+			dummy->left=root;
+			dummy->right=dummy;
+			dummy->info=-999;
+		
+		
+		if(root==NULL)
+		{
+			root=new node;
+			root->left=dummy;
+			root->right=dummy;
+			root->lth=1;
+			root->rth=1;
+			root->info=num;
+			
+
+			return;
+			
+		}
+		
+		if(temp->lth!=1)
+		{
+			insert(temp->left,num);
+		}
+		else
+		{
+			temp->left=new node;
+		temp->left->lth=1;
+		temp->left->rth=1;
+		temp->lth=0;
+		temp->left->right=temp;
+		temp->left->left=temp->left->right=dummy;
+		return;
+	}
+	if(temp->rth!=1)
+	{
+		insert(temp->right,num);
+	}
+	else
+	{
+		temp->right=new node;
+		temp->right->lth=1;
+		temp->right->rth=1;
+		temp->rth=0;
+		temp->right->left=temp;
+		temp->right->left=temp->right->right=dummy;
+		return;
+
+	}
+
+	}
+node *next_inorder(node * temp)
+{
+	if(temp->rth==1)
+	{
+		return temp->right;
+	}
+	else
+	{
+		temp=temp->right;
+		while(temp->lth==0)
+		
+			temp=temp->left;
+		
+			return temp;
+	}
+
+}
+void fastinorder(node *temp)
+{
+	while((temp=next_inorder(temp))!=dummy)
+	
+		cout<<temp->info<<" ";
+	
+}
+
+	~thread()
+	{
+		delete dummy,root,temp;
+	}
+};
+void main()
+{
+	system("TITLE Rahila Syed");
+	thread s;
+	int a;
+	cin>>a;
+	for(int i=1;i<=a;i++)
+	{
+		cin>>s.num;
+	s.insert(s.root,s.num);
+
+	}	
+	s.fastinorder(s.dummy);
+	s.fastinorder(s.root);
+	s.fastinorder(s.root);
+
+}

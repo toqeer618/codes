@@ -1,0 +1,132 @@
+node * successor(int num,node *temp2)
+{
+    if(temp2->left->left==NULL)
+        return temp2;
+    else 
+        return successor(num,temp2->left);
+}
+void tree::delet(int key,node*temp)
+{
+    if(temp==NULL)
+    {
+        cout<<"\n\n\tTHE TREE IS EMPTY!!!!"<<endl;
+        return;
+    }
+    if((temp->info==key) && (temp->left==NULL) && (temp->right==NULL))
+    {
+        delete temp;
+        temp=NULL;
+        root=NULL;
+        return;
+    }
+    
+
+    //for no child
+    if(temp->left!=NULL)
+    {
+        if((temp->left->info==key) && (temp->left->left==NULL) && (temp->left->right==NULL))
+        {
+            delete temp->left;
+            temp->left=NULL;
+            return;
+            
+        }
+
+    }
+    
+    if(temp->right!=NULL)
+    {
+        if((temp->right->info==key) && (temp->right->left==NULL) && (temp->right->right==NULL))
+        {
+            delete temp->right;
+            temp->right=NULL;
+            return;
+        }
+    }
+
+    //for one child case 2
+    if((temp->left!= NULL) && (key==temp->left->info))
+    {
+        if((temp->left->left!=NULL) && (temp->left->right==NULL))
+        {
+            temp1=temp->left;
+            temp->left=temp1->left;
+            delete temp1;
+            return;
+        }
+        if((temp->left->left==NULL) && (temp->left->right!=NULL))
+        {
+            temp1=temp->left;
+            temp->left=temp1->right;
+            delete temp1;
+            return;
+        }
+    }
+    if((temp->right!=NULL) && (key==temp->right->info))
+    {
+        if((temp->right->left!=NULL) && (temp->right->right==NULL))
+        {
+            temp1=temp->right;
+            temp->right=temp1->left;
+            delete temp1;
+            return;
+        }
+        if((temp->right->left==NULL) && (temp->right->right!=NULL))
+        {
+            temp1=temp->right;
+            temp->right=temp1->right;
+            delete temp1;
+            return;
+        }
+    }
+    if( (temp->info==key) && (( (temp->left!=NULL) && (temp->right==NULL) ) || ( (temp->left==NULL)&&(temp->right!=NULL) ) ))
+    {
+        if(temp->left!=NULL)
+        {   
+            temp1=temp->left;
+            temp->info=temp->left->info;
+            temp->left=temp1->left;
+            temp->right=temp1->right;
+            delete temp1;
+            return;
+
+
+            
+        }
+        if(temp->right!=NULL)
+        {
+            temp1=temp->right;
+            temp->info=temp->right->info;
+            temp->left=temp1->left;
+            temp->right=temp1->right;
+            delete temp1;
+            return;
+
+        }
+    }
+
+
+
+    //case 3 node having two childs
+    if((temp->info==key) && (temp->left!=NULL) && (temp->right!=NULL))
+    {
+        if(temp->right->left==NULL)
+        {
+            temp->info=temp->right->info;
+            delet(temp->right->info,temp);
+                return;
+        }
+        if(temp->right->left!=NULL)
+        {
+        node *immed_success=successor(key,temp->right);
+        temp->info=immed_success->left->info;
+        delet((immed_success->left->info),immed_success);
+        return;
+        }
+    }
+
+    if(key>(temp->info))
+        delet(key,(temp->right));
+    else if(key<(temp->info))
+        delet(key,(temp->left));
+}

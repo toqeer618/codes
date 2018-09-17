@@ -1,0 +1,153 @@
+#include<iostream>
+
+using namespace std;
+
+struct node
+{
+	int info;
+	node *left;
+	node *right;
+	int height;
+};
+int getpow(int a)
+{
+	int res = 1;
+	for (int i = 0; i < a; i++)
+	{
+		res *= 2;
+
+	}
+	--res;
+	return res;
+}
+
+class cbt
+{
+private :
+	node *root;
+	int h;
+	int count;
+	int num;
+	int add;
+public :
+	cbt()
+	{
+		root = NULL;
+		count = 0;
+		h = 0;
+		add = 0;
+		num = 0;
+	}
+
+	void insert(node *temp)
+	{
+		if (add ==  1)
+		{
+			return;
+		}
+
+		if (root == NULL)
+		{
+			root = new node;
+			root->left = NULL;
+			root->right = NULL;
+			root->info = num;
+			h++;
+			add++;
+			root->height = h;
+			count++;
+			return;
+		}
+		else if (count==getpow(h))
+		{
+			while (temp->left != NULL)
+			{
+				temp = temp->left;
+			}
+			temp->left = new node;
+			temp->left->left = NULL;
+			temp->left->right = NULL;
+			temp->left->info = num;
+			count++;
+			add++;
+			h++;
+			temp->left->height = h;
+			return;
+		}
+		else if (temp->left == NULL)
+		{
+			temp->left = new node;
+			temp->left->left = NULL;
+			temp->left->right = NULL;
+			temp->left->info = num;
+			count++;
+			add++;
+			temp->left->height=h;
+			return;
+		}
+		else if (temp->right == NULL)
+		{
+			temp->right = new node;
+			temp->right->left = NULL;
+			temp->right->right = NULL;
+			temp->right->info = num;
+			count++;
+			add++;
+			temp->right->height = h;
+			return;
+		}
+		else
+		{
+			if (temp->height < (h - 1))
+			{
+				insert(temp->left);
+				insert(temp->right);
+			}
+			
+			
+		}
+
+	}
+	node *getroot()
+	{
+		return root;
+	}
+	void updatenum(int a)
+	{
+		num = a;
+		add = 0;
+	}
+
+	void traversal(node *temp)
+	{
+		if (temp->left != NULL)
+		{
+			traversal(temp->left);
+		}
+		cout << temp->info;
+		if (temp->right != NULL)
+		{
+			traversal(temp->right);
+		}
+	}
+
+};
+
+
+
+
+void main()
+{
+	int a;
+	cbt obj;
+	for (int i = 0; i < 10;i++)
+	{
+		cin >> a;
+		obj.updatenum(a);
+		obj.insert(obj.getroot());
+	}
+
+	obj.traversal(obj.getroot());
+
+	system("pause");
+}
