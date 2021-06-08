@@ -1,0 +1,149 @@
+#include <iostream>
+using namespace std;
+struct node
+{
+  int info;
+  node *left,*right;
+}*cur,*pre;
+
+class bst
+{
+   private :
+	    node *temp;
+   public  :
+	    node *root;
+	    bst();
+	    int h;
+	    int level;
+
+	    void options();
+	    void insertion(node * temp, int number);
+	   void deletion(node *,node*);
+	    void in_order(node *);
+        void findLevel(node *temp, int val);
+};
+int main()
+{
+    bst b;
+    b.insertion(b.root,100);
+    b.insertion(b.root,50);
+    b.insertion(b.root,150);
+    b.insertion(b.root,30);
+    b.insertion(b.root,60);
+    b.insertion(b.root,160);
+    b.insertion(b.root,140);
+        b.insertion(b.root,170);
+        b.insertion(b.root,155);
+        b.insertion(b.root,70);
+
+    b.in_order(b.root);
+    cout<<endl;
+   b.findLevel(b.root,150);
+//   cout<<b.h<<endl;
+    
+}
+
+bst :: bst()
+{
+    h=level=0;
+  root=temp=NULL;
+}
+//--------------------------------------------------------
+
+void bst :: insertion(node *temp, int number)
+{
+  if( root==NULL )
+   {
+     temp=new node;
+     temp->info = number;
+     temp->left=NULL;
+     temp->right=NULL;
+     root=temp;
+     return;
+   }
+
+  if( temp->info==number )
+   {
+      cout<<" \n Given number is already present in tree.\n";
+      return;
+    }
+if(temp->info > number)
+   {
+      if( temp->left!=NULL )
+       {
+		 insertion(temp->left,  number);
+		 return;
+       }
+      else
+       {
+	 temp->left=new node;
+	 temp->left->info = number;
+	 temp->left->left=NULL;
+	 temp->left->right=NULL;
+	 return;
+       }
+   }
+if(temp->info < number)
+   {
+      if( temp->right!=NULL )
+       {
+		 insertion(temp->right, number);
+		 return;
+       }
+      else
+       {
+	 temp->right=new node;
+	 temp->right->info = number;
+	 temp->right->left=NULL;
+	 temp->right->right=NULL;
+	 return;
+       }
+   }
+
+} //--------------------    Insertion Function  Ends    --------------------------
+
+//--------------------------------------------------
+void bst :: in_order(node *temp)
+{
+  if(root==NULL)
+    {
+	cout<<" Tree is empty.\n";
+	return;
+    }
+  if( temp->left!=NULL )
+    		 in_order(temp->left);
+  cout<<temp->info<<"  ";
+  if( temp->right!=NULL )
+		 in_order(temp->right);
+  return;
+}
+
+void bst :: findLevel(node *temp, int val)
+{
+  if(root==NULL)
+    {
+	cout<<" Tree is empty.\n";
+	return;
+    }
+if(temp->info==val){
+    cout<<"Level is: "<<level<<endl;
+    return;
+}
+  if( temp->left!=NULL ){
+          		  level ++;
+
+    		 findLevel(temp->left, val);
+  }
+  if( temp->right!=NULL ){
+            level++;
+
+      findLevel(temp->right,val);
+  }
+		 
+if(level>h){
+    h=level;
+
+    }
+    level--;
+    
+}    
